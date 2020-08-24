@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">EasyEnglish</string>
+    <string name="app_name">Easy English</string>
+    <string name="yukleniyor">Yükleniyor</string>
 </resources>

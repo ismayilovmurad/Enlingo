@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "913295295910",
+    "firebase_url": "https://easy-english-app.firebaseio.com",
+    "project_id": "easy-english-app",
+    "storage_bucket": "easy-english-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913295295910:android:4e127a8bcf0edb258dfb67",
+        "android_client_info": {
+          "package_name": "com.martiandeveloper.easyenglish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913295295910-gp8sf07evcigv8iqd881gam5i2221jd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.martiandeveloper.easyenglish",
+            "certificate_hash": "e81b771527d03365b128de94c32b2cd0c6d2014c"
+          }
+        },
+        {
+          "client_id": "913295295910-76r1pdoqklde0mbi40ndqpof0ufkbb3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj87wBGdtQQ6VwEtbwtBXOi2v7diHifj8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913295295910-76r1pdoqklde0mbi40ndqpof0ufkbb3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
