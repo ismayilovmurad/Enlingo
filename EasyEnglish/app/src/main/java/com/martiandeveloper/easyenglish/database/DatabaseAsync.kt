@@ -1,48 +1,40 @@
-package com.martiandeveloper.easyenglish.viewmodel
+package com.martiandeveloper.easyenglish.database
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import android.os.Handler
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import com.martiandeveloper.easyenglish.R
-import com.martiandeveloper.easyenglish.database.DatabaseAsync
-import com.martiandeveloper.easyenglish.database.DatabaseHelper
 import com.martiandeveloper.easyenglish.view.FeedActivity
 import com.martiandeveloper.easyenglish.view.IntroActivity
-
-const val SHARED_PREFERENCES = "Intro"
-const val KEY = "intro"
+import com.martiandeveloper.easyenglish.viewmodel.KEY
+import com.martiandeveloper.easyenglish.viewmodel.SHARED_PREFERENCES
 
 @SuppressLint("StaticFieldLeak")
-class SplashViewModel(
-    private val context: Context,
-    private val databaseHelper: DatabaseHelper,
-    private val activity: Activity
-) :
-    ViewModel() {
+class DatabaseAsync(private val context: Context, private val activity: Activity) :
+    AsyncTask<Void?, Void?, Boolean?>() {
 
-    fun checkDatabase() {
+    override fun doInBackground(vararg params: Void?): Boolean? {
+        val databaseHelper = DatabaseHelper(context)
 
-        if (databaseHelper.checkDataBase()) {
-            openDatabase()
-        } else {
-            val databaseAsync = DatabaseAsync(context, activity)
-            databaseAsync.execute()
-        }
-    }
-
-    private fun openDatabase() {
         try {
-            databaseHelper.openDataBase()
-            getIntroData()
+            databaseHelper.createDataBase()
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(context, R.string.went_wrong, Toast.LENGTH_SHORT).show()
         }
+
+        databaseHelper.close()
+        return null
+    }
+
+    override fun onPostExecute(result: Boolean?) {
+        super.onPostExecute(result)
+        getIntroData()
     }
 
     private fun getIntroData() {

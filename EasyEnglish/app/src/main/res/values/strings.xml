@@ -2,4 +2,22 @@
     <string name="app_name">Easy English</string>
     <string name="loading">Yükleniyor</string>
     <string name="went_wrong">Hata: Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.</string>
+    <string name="previous">Önceki</string>
+    <string name="next">Sonraki</string>
+    <string name="okay">Tamam</string>
+
+    <!--Array-->
+    <string-array name="titles">
+        <item>Hoş geldin</item>
+        <item>Kelimeler</item>
+        <item>İfadeler</item>
+        <item>Test</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>İngilizce kelime ve ifadeleri kolay yoldan öğren. Sayfayı sağa doğru kaydır ve ingilizce öğrenmeye başla.</item>
+        <item>İngilizcede en çok kullanılan kelimeleri kolay yoldan öğren ve kelime hazineni geliştir.</item>
+        <item>Film ve dizilerden topladığım ifadelerle ingilizceyi daha iyi anla ve konuş.</item>
+        <item>Test yaparak puan topla ve diğer kullanıcılarla yarış.</item>
+    </string-array>
+
 </resources>

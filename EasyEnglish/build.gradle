@@ -50,7 +50,7 @@ ext {
     // AppCompat
     appcompat = "1.2.0"
     // ConstraintLayout
-    constraintlayout = "1.1.3"
+    constraintlayout = "2.0.0"
     // Test
     junit = "4.13"
     junit2 = "1.1.1"
