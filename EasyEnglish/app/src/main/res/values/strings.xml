@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Easy English</string>
-    <string name="yukleniyor">Yükleniyor</string>
+    <string name="loading">Yükleniyor</string>
+    <string name="went_wrong">Hata: Bir şeyler ters gitti. Lütfen daha sonra tekrar deneyiniz.</string>
 </resources>
