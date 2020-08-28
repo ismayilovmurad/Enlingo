@@ -4,7 +4,6 @@ package com.martiandeveloper.easyenglish.database
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
@@ -89,7 +88,7 @@ class DatabaseHelper(private val myContext: Context) :
         }
     }
 
-    @SuppressLint("Recycle")
+    /*@SuppressLint("Recycle")
     fun getMeaning(text: String): Cursor? {
         return try {
             myDataBase!!.rawQuery(
@@ -99,7 +98,7 @@ class DatabaseHelper(private val myContext: Context) :
         } catch (e: Exception) {
             null
         }
-    }
+    }*/
 
     companion object {
         private const val DB_NAME = "eng_dictionary.db"

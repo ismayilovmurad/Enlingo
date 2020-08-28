@@ -14,8 +14,8 @@ import com.martiandeveloper.easyenglish.database.DatabaseHelper
 import com.martiandeveloper.easyenglish.view.FeedActivity
 import com.martiandeveloper.easyenglish.view.IntroActivity
 
-const val SHARED_PREFERENCES = "Intro"
-const val KEY = "intro"
+const val INTRO_SHARED_PREFERENCES = "Intro"
+const val INTRO_KEY = "intro"
 
 @SuppressLint("StaticFieldLeak")
 class SplashViewModel(
@@ -47,13 +47,13 @@ class SplashViewModel(
 
     private fun getIntroData() {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-            SHARED_PREFERENCES,
+            INTRO_SHARED_PREFERENCES,
             Context.MODE_PRIVATE
         )
-        if (sharedPreferences.getString(KEY, "no") != null) {
+        if (sharedPreferences.getString(INTRO_KEY, "no") != null) {
             check(
                 sharedPreferences.getString(
-                    KEY,
+                    INTRO_KEY,
                     "no"
                 )!!
             )

@@ -69,9 +69,6 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-core:$firebase_core"
     implementation "com.google.firebase:firebase-analytics:$firebase_analytics"
-    implementation "com.google.firebase:firebase-auth-ktx:$firebase_auth"
-    implementation "com.google.firebase:firebase-firestore-ktx:$firebase_firestore"
-    implementation "com.google.firebase:firebase-storage:$firebase_storage"
     // Material
     implementation "com.google.android.material:material:$material"
     // Navigation
@@ -79,12 +76,11 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     // Lifecycle
     implementation "android.arch.lifecycle:extensions:$lifecycle"
-    // UCrop
-    implementation "com.github.yalantis:ucrop:$ucrop"
-    // Glide
-    implementation "com.github.bumptech.glide:glide:$glide"
     // Google Ads
     implementation "com.google.android.gms:play-services-ads:$googleAds"
     // SwipeCards
     implementation "com.lorentzos.swipecards:library:$swipecards"
+    // Play core library for In-App Review
+    implementation "com.google.android.play:core:$playcore"
+    implementation "com.google.android.play:core-ktx:$playcorektx"
 }

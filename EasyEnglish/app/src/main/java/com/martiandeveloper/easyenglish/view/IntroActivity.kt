@@ -12,8 +12,8 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.textview.MaterialTextView
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.adapter.IntroAdapter
-import com.martiandeveloper.easyenglish.viewmodel.KEY
-import com.martiandeveloper.easyenglish.viewmodel.SHARED_PREFERENCES
+import com.martiandeveloper.easyenglish.viewmodel.INTRO_KEY
+import com.martiandeveloper.easyenglish.viewmodel.INTRO_SHARED_PREFERENCES
 import kotlinx.android.synthetic.main.activity_intro.*
 
 class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickListener {
@@ -110,9 +110,9 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
     }
 
     private fun saveToSharedPreferences() {
-        val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(INTRO_SHARED_PREFERENCES, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString(KEY, "yes")
+        editor.putString(INTRO_KEY, "yes")
         editor.apply()
     }
 
@@ -162,16 +162,5 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
 
     private fun previous() {
         activity_intro_mainVP.currentItem = page - 1
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val decorView = window.decorView
-        decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
     }
 }

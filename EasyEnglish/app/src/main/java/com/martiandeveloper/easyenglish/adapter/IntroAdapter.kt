@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
 import com.google.android.material.textview.MaterialTextView
 import com.martiandeveloper.easyenglish.R
 
@@ -37,11 +35,7 @@ class IntroAdapter(
         val layoutIntroDescriptionTV: MaterialTextView =
             view.findViewById(R.id.layout_intro_descriptionTV)
 
-        Glide.with(context)
-            .load(splash_images[position])
-            .priority(Priority.IMMEDIATE)
-            .into(layoutIntroMainIV)
-
+        layoutIntroMainIV.setImageResource(splash_images[position])
         layoutIntroTitleTV.text = splash_titles[position]
         layoutIntroDescriptionTV.text = splash_descriptions[position]
 

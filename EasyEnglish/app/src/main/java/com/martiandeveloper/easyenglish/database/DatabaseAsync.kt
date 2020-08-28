@@ -11,8 +11,8 @@ import android.widget.Toast
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.view.FeedActivity
 import com.martiandeveloper.easyenglish.view.IntroActivity
-import com.martiandeveloper.easyenglish.viewmodel.KEY
-import com.martiandeveloper.easyenglish.viewmodel.SHARED_PREFERENCES
+import com.martiandeveloper.easyenglish.viewmodel.INTRO_KEY
+import com.martiandeveloper.easyenglish.viewmodel.INTRO_SHARED_PREFERENCES
 
 @SuppressLint("StaticFieldLeak")
 class DatabaseAsync(private val context: Context, private val activity: Activity) :
@@ -39,13 +39,13 @@ class DatabaseAsync(private val context: Context, private val activity: Activity
 
     private fun getIntroData() {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-            SHARED_PREFERENCES,
+            INTRO_SHARED_PREFERENCES,
             Context.MODE_PRIVATE
         )
-        if (sharedPreferences.getString(KEY, "no") != null) {
+        if (sharedPreferences.getString(INTRO_KEY, "no") != null) {
             check(
                 sharedPreferences.getString(
-                    KEY,
+                    INTRO_KEY,
                     "no"
                 )!!
             )
