@@ -9,7 +9,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.model.Phrase
 
-class PhraseCardAdapter(private val mContext: Context, private val list: ArrayList<Phrase>) :
+class PhraseCardAdapter(private val mContext: Context, private val list: List<Phrase>) :
     ArrayAdapter<Phrase?>(mContext, 0, list) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

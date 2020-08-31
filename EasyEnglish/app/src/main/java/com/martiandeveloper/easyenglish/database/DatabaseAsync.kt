@@ -53,13 +53,12 @@ class DatabaseAsync(private val context: Context, private val activity: Activity
     }
 
     private fun check(isIntro: String) {
-        if (isIntro == "no") {
-            val intent = Intent(context, IntroActivity::class.java)
-            waitAndGo(intent)
+        val intent = if (isIntro == "no") {
+            Intent(context, IntroActivity::class.java)
         } else {
-            val intent = Intent(context, FeedActivity::class.java)
-            waitAndGo(intent)
+            Intent(context, FeedActivity::class.java)
         }
+        waitAndGo(intent)
     }
 
     private fun waitAndGo(intent: Intent) {

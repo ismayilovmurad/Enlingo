@@ -19,8 +19,9 @@ class FeedActivity : AppCompatActivity() {
     // Creates instance of the manager.
     private var appUpdateManager: AppUpdateManager? = null
 
-    private var TAG = "Murad"
     private var MY_REQUEST_CODE = 100
+
+    private val TAG = "Martian developer"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +38,13 @@ class FeedActivity : AppCompatActivity() {
         // Returns an intent object that you use to check for an update.
         val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
         // Checks that the platform will allow the specified type of update.
-        Log.d(TAG, "Checking for updates")
+        // Checking for updates
         appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
             ) {
+                // Update available
                 // Request the update.
-                Log.d(TAG, "Update available")
 
                 appUpdateManager?.startUpdateFlowForResult(
                     // Pass the intent that is returned by 'getAppUpdateInfo()'.
@@ -55,8 +56,6 @@ class FeedActivity : AppCompatActivity() {
                     // Include a request code to later monitor this update request.
                     MY_REQUEST_CODE
                 )
-            } else {
-                Log.d(TAG, "No Update available")
             }
         }
     }

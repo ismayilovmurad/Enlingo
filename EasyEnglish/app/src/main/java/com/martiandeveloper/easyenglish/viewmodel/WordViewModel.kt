@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.model.Word
-import java.util.*
+import kotlin.collections.ArrayList
 
 @SuppressLint("StaticFieldLeak")
 class WordViewModel(val context: Context) : ViewModel() {

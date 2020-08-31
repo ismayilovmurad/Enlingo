@@ -9,16 +9,15 @@ import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.textview.MaterialTextView
 import com.martiandeveloper.easyenglish.R
+import com.martiandeveloper.easyenglish.model.Splash
 
 class IntroAdapter(
     private val context: Context,
-    private val splash_images: List<Int>,
-    private val splash_titles: List<String>,
-    private val splash_descriptions: List<String>
+    private val splashList: List<Splash>
 ) :
     PagerAdapter() {
     override fun getCount(): Int {
-        return splash_titles.size
+        return splashList.size
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -35,9 +34,9 @@ class IntroAdapter(
         val layoutIntroDescriptionTV: MaterialTextView =
             view.findViewById(R.id.layout_intro_descriptionTV)
 
-        layoutIntroMainIV.setImageResource(splash_images[position])
-        layoutIntroTitleTV.text = splash_titles[position]
-        layoutIntroDescriptionTV.text = splash_descriptions[position]
+        layoutIntroMainIV.setImageResource(splashList[position].image)
+        layoutIntroTitleTV.text = splashList[position].title
+        layoutIntroDescriptionTV.text = splashList[position].description
 
         container.addView(view)
         return view

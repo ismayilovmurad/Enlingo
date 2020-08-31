@@ -9,7 +9,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.model.Word
 
-class WordCardAdapter(private val mContext: Context, private val list: ArrayList<Word>) :
+class WordCardAdapter(private val mContext: Context, private val list: List<Word>) :
     ArrayAdapter<Word?>(mContext, 0, list) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

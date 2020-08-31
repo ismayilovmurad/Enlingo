@@ -88,70 +88,10 @@ class PhraseFragment : Fragment(), View.OnClickListener {
         setTheCard()
         setListeners()
         binding.phraseMeaning = vm.phraseList.value?.get(0)?.meaning
-        if (vm.phraseList.value?.get(0)?.phrase != null) {
-            currentPhrase = vm.phraseList.value?.get(0)?.phrase!!
-        }
-        textToSpeech = TextToSpeech(context) { status: Int ->
-            if (status == TextToSpeech.SUCCESS) {
-                textToSpeech.language = Locale.US
-            }
-        }
+        getCurrentPhrase()
+        initTextToSpeech()
         setAds()
-        if (vm.phraseList.value?.get(0)?.phrase == "End" || vm.phraseList.value?.get(0)?.phrase!!.startsWith(
-                "Congratulations"
-            )
-        ) {
-            showFinishDialog()
-        }
-    }
-
-    private fun setAds() {
-        MobileAds.initialize(context)
-
-        // Banner
-        adView = AdView(context)
-        adView.adUnitId = resources.getString(R.string.phrase_fragment_banner)
-
-        fragment_phrase_bannerAdPlaceholderFL.addView(adView)
-
-        val bannerAdRequest = AdRequest.Builder().build()
-
-        val adSize = getAdSize()
-        if (adSize != null) {
-            adView.adSize = adSize
-        }
-        adView.loadAd(bannerAdRequest)
-
-        // Interstitial
-        interstitialAd = InterstitialAd(context)
-        interstitialAd.adUnitId = resources.getString(R.string.phrase_fragment_interstitial)
-
-        val interstitialAdRequest = AdRequest.Builder().build()
-        interstitialAd.loadAd(interstitialAdRequest)
-
-        interstitialAd.adListener = object : AdListener() {
-            override fun onAdClosed() {
-                super.onAdClosed()
-                interstitialAd.loadAd(interstitialAdRequest)
-            }
-        }
-    }
-
-    private fun getAdSize(): AdSize? {
-        val display: Display? = activity?.windowManager?.defaultDisplay
-        return if (display != null) {
-            val outMetrics = DisplayMetrics()
-            display.getMetrics(outMetrics)
-
-            val widthPixels = outMetrics.widthPixels.toFloat()
-            val density = outMetrics.density
-
-            val adWidth = (widthPixels / density).toInt()
-
-            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
-        } else {
-            null
-        }
+        isFinish()
     }
 
     private fun getIndex() {
@@ -240,11 +180,6 @@ class PhraseFragment : Fragment(), View.OnClickListener {
         dialog.dismiss()
     }
 
-    override fun onStop() {
-        super.onStop()
-        saveIndex()
-    }
-
     private fun saveIndex() {
         val sharedPreferences = requireContext().getSharedPreferences(
             PHRASE_SHARED_PREFERENCES,
@@ -267,9 +202,86 @@ class PhraseFragment : Fragment(), View.OnClickListener {
         textToSpeech.speak(currentPhrase, TextToSpeech.QUEUE_FLUSH, null, "tts1")
     }
 
+    private fun getCurrentPhrase() {
+        if (vm.phraseList.value?.get(0)?.phrase != null) {
+            currentPhrase = vm.phraseList.value?.get(0)?.phrase!!
+        }
+    }
+
+    private fun initTextToSpeech() {
+        textToSpeech = TextToSpeech(context) { status: Int ->
+            if (status == TextToSpeech.SUCCESS) {
+                textToSpeech.language = Locale.US
+            }
+        }
+    }
+
+    private fun setAds() {
+        MobileAds.initialize(context)
+
+        // Banner
+        adView = AdView(context)
+        adView.adUnitId = resources.getString(R.string.phrase_fragment_banner)
+
+        fragment_phrase_bannerAdPlaceholderFL.addView(adView)
+
+        val bannerAdRequest = AdRequest.Builder().build()
+
+        val adSize = getAdSize()
+        if (adSize != null) {
+            adView.adSize = adSize
+        }
+        adView.loadAd(bannerAdRequest)
+
+        // Interstitial
+        interstitialAd = InterstitialAd(context)
+        interstitialAd.adUnitId = resources.getString(R.string.phrase_fragment_interstitial)
+
+        val interstitialAdRequest = AdRequest.Builder().build()
+        interstitialAd.loadAd(interstitialAdRequest)
+
+        interstitialAd.adListener = object : AdListener() {
+            override fun onAdClosed() {
+                super.onAdClosed()
+                interstitialAd.loadAd(interstitialAdRequest)
+            }
+        }
+    }
+
+    private fun getAdSize(): AdSize? {
+        val display: Display? = activity?.windowManager?.defaultDisplay
+        return if (display != null) {
+            val outMetrics = DisplayMetrics()
+            display.getMetrics(outMetrics)
+
+            val widthPixels = outMetrics.widthPixels.toFloat()
+            val density = outMetrics.density
+
+            val adWidth = (widthPixels / density).toInt()
+
+            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
+        } else {
+            null
+        }
+    }
+
+    private fun isFinish() {
+        if (vm.phraseList.value?.get(0)?.phrase == "End" || vm.phraseList.value?.get(0)?.phrase!!.startsWith(
+                "Congratulations"
+            )
+        ) {
+            showFinishDialog()
+        }
+    }
+
     override fun onPause() {
         textToSpeech.stop()
         super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        saveIndex()
     }
 
     override fun onDestroy() {

@@ -28,7 +28,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/app_name"
-        app:srcCompat="@drawable/congratulation" />
+        app:srcCompat="@drawable/congratulations" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/dialog_finish_startAgainMBTN"

@@ -38,38 +38,28 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initUI() {
-        fragment_home_wordsLL.setOnClickListener(this)
-        fragment_home_phrasesLL.setOnClickListener(this)
-        fragment_home_testLL.setOnClickListener(this)
-        fragment_home_rateLL.setOnClickListener(this)
+        setListeners()
+        initReview()
+    }
 
-        //Create the ReviewManager instance
-        reviewManager = ReviewManagerFactory.create(requireContext())
-
-        //Request a ReviewInfo object ahead of time (Pre-cache)
-        val requestFlow = reviewManager.requestReviewFlow()
-        requestFlow.addOnCompleteListener { request ->
-            reviewInfo = if (request.isSuccessful) {
-                //Received ReviewInfo object
-                request.result
-            } else {
-                //Problem in receiving object
-                null
-            }
-        }
+    private fun setListeners() {
+        fragment_home_wordsMCV.setOnClickListener(this)
+        fragment_home_phrasesMCV.setOnClickListener(this)
+        fragment_home_testMCV.setOnClickListener(this)
+        fragment_home_rateMCV.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
-                R.id.fragment_home_wordsLL -> navigate(HomeFragmentDirections.actionHomeFragmentToWordFragment())
-                R.id.fragment_home_phrasesLL -> navigate(HomeFragmentDirections.actionHomeFragmentToPhraseFragment())
-                R.id.fragment_home_testLL -> Toast.makeText(
+                R.id.fragment_home_wordsMCV -> navigate(HomeFragmentDirections.actionHomeFragmentToWordFragment())
+                R.id.fragment_home_phrasesMCV -> navigate(HomeFragmentDirections.actionHomeFragmentToPhraseFragment())
+                R.id.fragment_home_testMCV -> Toast.makeText(
                     context,
                     R.string.the_test_section_is_under_development,
                     Toast.LENGTH_SHORT
                 ).show()
-                R.id.fragment_home_rateLL -> support()
+                R.id.fragment_home_rateMCV -> support()
             }
         }
     }
@@ -97,5 +87,22 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }, 3000)
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun initReview() {
+        //Create the ReviewManager instance
+        reviewManager = ReviewManagerFactory.create(requireContext())
+
+        //Request a ReviewInfo object ahead of time (Pre-cache)
+        val requestFlow = reviewManager.requestReviewFlow()
+        requestFlow.addOnCompleteListener { request ->
+            reviewInfo = if (request.isSuccessful) {
+                //Received ReviewInfo object
+                request.result
+            } else {
+                //Problem in receiving object
+                null
+            }
+        }
     }
 }

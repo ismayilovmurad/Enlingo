@@ -7,11 +7,14 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.textview.MaterialTextView
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.adapter.IntroAdapter
+import com.martiandeveloper.easyenglish.databinding.ActivityIntroBinding
+import com.martiandeveloper.easyenglish.model.Splash
 import com.martiandeveloper.easyenglish.viewmodel.INTRO_KEY
 import com.martiandeveloper.easyenglish.viewmodel.INTRO_SHARED_PREFERENCES
 import kotlinx.android.synthetic.main.activity_intro.*
@@ -21,9 +24,14 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
     private var introImages = ArrayList<Int>()
     private lateinit var introTitles: List<String>
     private lateinit var introDescriptions: List<String>
+
     private var introDots = ArrayList<MaterialTextView>()
 
     private var page = 0
+
+    private var splashList = ArrayList<Splash>()
+
+    private lateinit var binding: ActivityIntroBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +40,8 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
 
     private fun initUI() {
         window.setBackgroundDrawableResource(R.drawable.background_3)
-        setContentView(R.layout.activity_intro)
+        binding =
+            DataBindingUtil.setContentView(this, R.layout.activity_intro)
         fillTheLists()
         setAdapter()
         addDotIndicator(0)
@@ -41,18 +50,22 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
     }
 
     private fun fillTheLists() {
-        introImages.add(R.drawable.rate_us)
-        introImages.add(R.drawable.words)
-        introImages.add(R.drawable.phrases)
+        introImages.add(R.drawable.welcome)
+        introImages.add(R.drawable.improve)
+        introImages.add(R.drawable.diplom)
         introImages.add(R.drawable.test)
 
         introTitles = listOf(*resources.getStringArray(R.array.titles))
         introDescriptions = listOf(*resources.getStringArray(R.array.descriptions))
+
+        for (i in 0 until introImages.size) {
+            splashList.add(Splash(introImages[i], introTitles[i], introDescriptions[i]))
+        }
     }
 
     private fun setAdapter() {
         val pagerAdapter: PagerAdapter =
-            IntroAdapter(this, introImages, introTitles, introDescriptions)
+            IntroAdapter(this, splashList)
         activity_intro_mainVP.adapter = pagerAdapter
         activity_intro_mainVP.setPageTransformer(
             true
@@ -95,18 +108,26 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
 
     private fun setListeners() {
         activity_intro_mainVP.addOnPageChangeListener(this)
-        activity_intro_nextBTN.setOnClickListener(this)
-        activity_intro_previousBTN.setOnClickListener(this)
+        activity_intro_nextMBTN.setOnClickListener(this)
+        activity_intro_previousMBTN.setOnClickListener(this)
     }
 
-    private fun hidePreviousButton() {
-        activity_intro_previousBTN.isClickable = false
-        activity_intro_previousBTN.visibility = View.INVISIBLE
+    override fun onClick(v: View?) {
+        if (v != null) {
+            when (v.id) {
+                R.id.activity_intro_nextMBTN -> next()
+                R.id.activity_intro_previousMBTN -> previous()
+            }
+        }
     }
 
-    private fun showPreviousButton() {
-        activity_intro_previousBTN.isClickable = true
-        activity_intro_previousBTN.visibility = View.VISIBLE
+    private fun next() {
+        if (page != 3) {
+            activity_intro_mainVP.currentItem = page + 1
+        } else {
+            saveToSharedPreferences()
+            go()
+        }
     }
 
     private fun saveToSharedPreferences() {
@@ -123,6 +144,15 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
+    private fun previous() {
+        activity_intro_mainVP.currentItem = page - 1
+    }
+
+    private fun hidePreviousButton() {
+        binding.isPreviousMBTNGone = true
+        binding.isPreviousMBTNClickable = false
+    }
+
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
     override fun onPageSelected(position: Int) {
@@ -134,33 +164,16 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
             showPreviousButton()
         }
         if (page == 3) {
-            activity_intro_nextBTN.setText(R.string.okay)
+            activity_intro_nextMBTN.setText(R.string.okay)
         } else {
-            activity_intro_nextBTN.setText(R.string.next)
+            activity_intro_nextMBTN.setText(R.string.next)
         }
+    }
+
+    private fun showPreviousButton() {
+        binding.isPreviousMBTNGone = false
+        binding.isPreviousMBTNClickable = true
     }
 
     override fun onPageScrollStateChanged(state: Int) {}
-
-    override fun onClick(v: View?) {
-        if (v != null) {
-            when (v.id) {
-                R.id.activity_intro_nextBTN -> next()
-                R.id.activity_intro_previousBTN -> previous()
-            }
-        }
-    }
-
-    private fun next() {
-        if (page != 3) {
-            activity_intro_mainVP.currentItem = page + 1
-        } else {
-            saveToSharedPreferences()
-            go()
-        }
-    }
-
-    private fun previous() {
-        activity_intro_mainVP.currentItem = page - 1
-    }
 }

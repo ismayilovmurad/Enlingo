@@ -8,4 +8,5 @@
     <color name="colorThree">#373C45</color>
     <color name="colorFour" tools:ignore="UnusedResources">#FF1133</color>
     <color name="colorFive">#4BB543</color>
+    <color name="colorSix">#80373C45</color>
 </resources>

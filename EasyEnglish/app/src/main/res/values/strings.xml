@@ -10,9 +10,9 @@
     <string name="phrases">İfadeler</string>
     <string name="test">Test</string>
     <string name="the_test_section_is_under_development">Test bölümü geliştirme aşamasında.</string>
-    <string name="hi_you_can_support_us_by_either_rate_the_app_or_suggest_the_app_to_your_friends">Merhaba, uygulamamaya puan vererek veya uygulamayı arkadaşlarına önererek bize destek olabilirsin.</string>
+    <string name="hi_you_can_support_us_by_either_rate_the_app_or_suggest_the_app_to_your_friends">Merhaba, uygulamaya puan vererek veya uygulamayı arkadaşlarına önererek bize destek olabilirsin.</string>
     <string name="go_back">Geri dön</string>
-    <string name="you_finished_words">Tebrikler, tüm kartları bitirdin.</string>
+    <string name="you_finished_words">Tebrikler, tüm kartları bitirdin</string>
     <string name="start_again">Yeniden başla</string>
     <string name="home">Ana sayfa</string>
     <!--Ads-->
@@ -39,6 +39,21 @@
 
     <!--Words-->
     <string-array name="words">
+        <item>Retain</item>
+        <item>Conflict</item>
+        <item>Sleek</item>
+        <item>Charity</item>
+        <item>Pillage</item>
+        <item>Cohesive</item>
+        <item>Encounter</item>
+        <item>Subsequently</item>
+        <item>Corresponding</item>
+        <item>Extensible</item>
+        <item>Aspect</item>
+        <item>Beverage</item>
+        <item>Goofy</item>
+        <item>Convenience</item>
+        <item>Gossip</item>
         <item>Individual</item>
         <item>Occasionally</item>
         <item>Part</item>
@@ -3883,6 +3898,21 @@
 
     <!--Word meanings-->
     <string-array name="word_meanings">
+        <item>Muhafaza etme</item>
+        <item>Fikir ayrılığı</item>
+        <item>Şık</item>
+        <item>Hayır kurumu</item>
+        <item>Yağma</item>
+        <item>Yapışkan</item>
+        <item>Karşılaşma</item>
+        <item>Sonradan</item>
+        <item>Karşılık gelen</item>
+        <item>Genişletilebilir</item>
+        <item>Görünüş</item>
+        <item>İçecek</item>
+        <item>Şapşal</item>
+        <item>Kolaylık</item>
+        <item>Dedikodu</item>
         <item>Bireysel</item>
         <item>Bazen</item>
         <item>Bölüm</item>
@@ -7727,6 +7757,21 @@
 
     <!--Word transcriptions-->
     <string-array name="word_transcriptions">
+        <item>[ riteyn ]</item>
+        <item>[ konflıkt ]</item>
+        <item>[ sliik ]</item>
+        <item>[ çerıti ]</item>
+        <item>[ pilıc ]</item>
+        <item>[ kohisıv ]</item>
+        <item>[ enkauntır ]</item>
+        <item>[ sabsukuentli ]</item>
+        <item>[ korıspandin ]</item>
+        <item>[ ikstensibıl ]</item>
+        <item>[ espekt ]</item>
+        <item>[ bevric ]</item>
+        <item>[ guufi ]</item>
+        <item>[ konvinyıns ]</item>
+        <item>[ gosip ]</item>
         <item>[ indivicul ]</item>
         <item>[ okeyşınıli ]</item>
         <item>[ part ]</item>
@@ -11571,6 +11616,7 @@
 
     <!--Phrases-->
     <string-array name="phrases">
+        <item>Consist of</item>
         <item>Crack down</item>
         <item>I\'m doing well</item>
         <item>I\'m tired</item>
@@ -12723,6 +12769,7 @@
 
     <!--Phrase meanings-->
     <string-array name="phrase_meanings">
+        <item>Oluşmaktadır</item>
         <item>Sert önlemler almak</item>
         <item>İyi gidiyor</item>
         <item>Yorgunum</item>
@@ -13875,6 +13922,7 @@
 
     <!--Phrase transcription-->
     <string-array name="phrase_transcriptions">
+        <item>[ kınsist ov ]</item>
         <item>[ krek daun ]</item>
         <item>[ aɪm duɪn vel ]</item>
         <item>[ aɪm taɪrd ]</item>
