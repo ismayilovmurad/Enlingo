@@ -2,12 +2,14 @@ package com.martiandeveloper.easyenglish.view
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.database.DatabaseHelper
+import com.martiandeveloper.easyenglish.model.Word
 import com.martiandeveloper.easyenglish.viewmodel.SplashViewModel
 
 class SplashActivity : AppCompatActivity() {
@@ -29,7 +31,25 @@ class SplashActivity : AppCompatActivity() {
         activity = this
         databaseHelper = DatabaseHelper(this)
         vm = getViewModel()
-        vm.checkDatabase()
+
+        val wordList =
+            ArrayList(listOf(*resources.getStringArray(R.array.words)))
+        val wordMeaningList =
+            ArrayList(listOf(*resources.getStringArray(R.array.word_meanings)))
+        val wordTranscriptionList =
+            ArrayList(listOf(*resources.getStringArray(R.array.word_transcriptions)))
+
+        val cleanList = ArrayList<String>()
+
+        for(i in 0 until wordList.size){
+            if(!cleanList.contains(wordList[i])){
+                cleanList.add(wordList[i])
+            }else{
+                Log.d("Murad","${wordList[i]}, ${wordList.indexOf(wordList[i])} ,$i")
+            }
+        }
+
+        //vm.checkDatabase()
     }
 
     private fun getViewModel(): SplashViewModel {

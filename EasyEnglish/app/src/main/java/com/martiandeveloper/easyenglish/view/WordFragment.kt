@@ -11,7 +11,11 @@ import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -19,26 +23,31 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.*
 import com.google.android.material.button.MaterialButton
 import com.lorentzos.flingswipe.SwipeFlingAdapterView.onFlingListener
 import com.martiandeveloper.easyenglish.R
+import com.martiandeveloper.easyenglish.adapter.WordAdapter
 import com.martiandeveloper.easyenglish.adapter.WordCardAdapter
 import com.martiandeveloper.easyenglish.databinding.FragmentWordBinding
+import com.martiandeveloper.easyenglish.model.Word
 import com.martiandeveloper.easyenglish.viewmodel.WordViewModel
 import kotlinx.android.synthetic.main.fragment_word.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 const val WORD_SHARED_PREFERENCES = "WordIndex"
 const val WORD_KEY = "word_index"
 
-class WordFragment : Fragment(), View.OnClickListener {
+class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickListener {
 
     private lateinit var vm: WordViewModel
 
     private lateinit var binding: FragmentWordBinding
 
-    private lateinit var adapter: WordCardAdapter
+    private lateinit var cardAdapter: WordCardAdapter
 
     private var index = 0
 
@@ -51,7 +60,22 @@ class WordFragment : Fragment(), View.OnClickListener {
     private lateinit var interstitialAd: InterstitialAd
     private lateinit var adView: AdView
 
-    private lateinit var dialog: AlertDialog
+    private lateinit var finishDialog: AlertDialog
+
+    private lateinit var wordAdapter: WordAdapter
+
+    private lateinit var wordListDialog: AlertDialog
+
+    private lateinit var fullWordList: ArrayList<String>
+
+    private var isOpen = false
+
+    private var fabClose: Animation? = null
+    private var fabOpen: Animation? = null
+    private var fabClock: Animation? = null
+    private var fabAntiClock: Animation? = null
+
+    private lateinit var restartDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +116,14 @@ class WordFragment : Fragment(), View.OnClickListener {
         initTextToSpeech()
         setAds()
         isFinish()
+        initAnimations()
+    }
+
+    private fun initAnimations() {
+        fabClose = AnimationUtils.loadAnimation(context, R.anim.fab_close)
+        fabOpen = AnimationUtils.loadAnimation(context, R.anim.fab_open)
+        fabClock = AnimationUtils.loadAnimation(context, R.anim.fab_rotate_clock)
+        fabAntiClock = AnimationUtils.loadAnimation(context, R.anim.fab_rotate_anticlock)
     }
 
     private fun getIndex() {
@@ -106,8 +138,8 @@ class WordFragment : Fragment(), View.OnClickListener {
         vm.wordList.value?.subList(0, index)?.clear()
 
         if (vm.wordList.value != null) {
-            adapter = WordCardAdapter(requireContext(), vm.wordList.value!!)
-            fragment_word_mainSFAV.adapter = adapter
+            cardAdapter = WordCardAdapter(requireContext(), vm.wordList.value!!)
+            fragment_word_mainSFAV.adapter = cardAdapter
         }
     }
 
@@ -115,7 +147,7 @@ class WordFragment : Fragment(), View.OnClickListener {
         fragment_word_mainSFAV.setFlingListener(object : onFlingListener {
             override fun removeFirstObjectInAdapter() {
                 vm.wordList.value?.removeAt(0)
-                adapter.notifyDataSetChanged()
+                cardAdapter.notifyDataSetChanged()
                 binding.wordMeaning = vm.wordList.value?.get(0)?.meaning
 
                 if (vm.wordList.value?.get(0)?.word != null) {
@@ -144,40 +176,36 @@ class WordFragment : Fragment(), View.OnClickListener {
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {}
             override fun onScroll(v: Float) {}
         })
-        fragment_word_soundIV.setOnClickListener(this)
+        fragment_word_soundFL.setOnClickListener(this)
+        fragment_word_mainFAB.setOnClickListener(this)
+        fragment_word_restartFAB.setOnClickListener(this)
+        fragment_word_listFAB.setOnClickListener(this)
     }
 
     private fun showFinishDialog() {
-        dialog = AlertDialog.Builder(context).create()
+        finishDialog = AlertDialog.Builder(context).create()
         @SuppressLint("InflateParams") val view: View =
             layoutInflater.inflate(R.layout.dialog_finish, null)
         val dialogFinishStartAgainBTN: MaterialButton =
             view.findViewById(R.id.dialog_finish_startAgainMBTN)
         val dialogFinishHomeBTN: MaterialButton = view.findViewById(R.id.dialog_finish_homeMBTN)
-        dialogFinishStartAgainBTN.setOnClickListener { restart() }
-        dialogFinishHomeBTN.setOnClickListener {
-            dialog.dismiss()
-            index = 0
-            saveIndex()
-            navigate(WordFragmentDirections.actionWordFragmentToHomeFragment())
-        }
-        dialog.setView(view)
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setCancelable(false)
-        dialog.show()
+        dialogFinishStartAgainBTN.setOnClickListener(this)
+        dialogFinishHomeBTN.setOnClickListener(this)
+        finishDialog.setView(view)
+        finishDialog.setCanceledOnTouchOutside(false)
+        finishDialog.setCancelable(false)
+        finishDialog.show()
     }
 
     private fun navigate(navDirections: NavDirections) {
         view?.let { Navigation.findNavController(it).navigate(navDirections) }
     }
 
-    private fun restart() {
-        if (index != 0) {
-            index = 0
-            saveIndex()
-            navigate(WordFragmentDirections.actionWordFragmentSelf())
-        }
-        dialog.dismiss()
+    private fun restart(alertDialog: AlertDialog?, navDirections: NavDirections) {
+        alertDialog?.dismiss()
+        index = 0
+        saveIndex()
+        navigate(navDirections)
     }
 
     private fun saveIndex() {
@@ -193,13 +221,139 @@ class WordFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
-                R.id.fragment_word_soundIV -> speak()
+                R.id.fragment_word_soundFL -> speak()
+                R.id.dialog_finish_startAgainMBTN -> restart(
+                    finishDialog,
+                    WordFragmentDirections.actionWordFragmentSelf()
+                )
+                R.id.dialog_finish_homeMBTN -> restart(
+                    finishDialog,
+                    WordFragmentDirections.actionWordFragmentToHomeFragment()
+                )
+                R.id.fragment_word_mainFAB -> handleFabExpand()
+                R.id.fragment_word_restartFAB -> {
+                    closeFAB()
+                    openRestartDialog(v)
+                }
+                R.id.fragment_word_listFAB -> {
+                    closeFAB()
+                    openWordListDialog(v)
+                }
+                R.id.dialog_restart_yesMBTN -> restart(
+                    restartDialog,
+                    WordFragmentDirections.actionWordFragmentSelf()
+                )
+                R.id.dialog_restart_noMBTN -> restartDialog.dismiss()
             }
         }
     }
 
+    private fun openRestartDialog(v: View?) {
+        restartDialog = AlertDialog.Builder(v?.context).create()
+        val view = layoutInflater.inflate(R.layout.dialog_restart, null)
+
+        val dialogRestartYesMBTN =
+            view.findViewById<MaterialButton>(R.id.dialog_restart_yesMBTN)
+        val dialogRestartNoMBTN =
+            view.findViewById<MaterialButton>(R.id.dialog_restart_noMBTN)
+
+        dialogRestartYesMBTN.setOnClickListener(this)
+        dialogRestartNoMBTN.setOnClickListener(this)
+
+        restartDialog.setView(view)
+        restartDialog.show()
+    }
+
     private fun speak() {
         textToSpeech.speak(currentWord, TextToSpeech.QUEUE_FLUSH, null, "tts1")
+    }
+
+    private fun openWordListDialog(v: View?) {
+        wordListDialog = AlertDialog.Builder(v?.context).create()
+        val view = layoutInflater.inflate(R.layout.layout_word_list, null)
+
+        val layoutWordListMainRV =
+            view.findViewById<RecyclerView>(R.id.layout_word_list_mainRV)
+        val wordList =
+            ArrayList(listOf(*resources.getStringArray(R.array.words)))
+
+        fullWordList = wordList
+
+        val wordMeaningList: ArrayList<String> =
+            ArrayList(listOf(*resources.getStringArray(R.array.word_meanings)))
+        val wordTranscriptionList: ArrayList<String> =
+            ArrayList(listOf(*resources.getStringArray(R.array.word_transcriptions)))
+
+        val wordsList = ArrayList<Word>()
+
+        for (i in wordList.indices) {
+            wordsList.add(
+                Word(
+                    wordList[i],
+                    wordMeaningList[i],
+                    wordTranscriptionList[i]
+                )
+            )
+        }
+
+        layoutWordListMainRV.layoutManager = LinearLayoutManager(context)
+        wordAdapter = WordAdapter(wordsList, requireContext(), this,binding.wordMeaning)
+        layoutWordListMainRV.adapter = wordAdapter
+        layoutWordListMainRV.scrollToPosition(index)
+
+        val layoutWordListMainSV =
+            view.findViewById<SearchView>(R.id.layout_word_list_mainSV)
+        layoutWordListMainSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                wordAdapter.filter.filter(newText)
+                return false
+            }
+
+        })
+
+        wordListDialog.setView(view)
+        wordListDialog.show()
+    }
+
+    private fun handleFabExpand() {
+        if (isOpen) {
+            closeFAB()
+        } else {
+            openFAB()
+        }
+    }
+
+    private fun closeFAB() {
+        fragment_word_restartMTV.visibility = View.INVISIBLE
+        fragment_word_listMTV.visibility = View.INVISIBLE
+        fragment_word_restartFAB.startAnimation(fabClose)
+        fragment_word_listFAB.startAnimation(fabClose)
+        fragment_word_mainFAB.startAnimation(fabAntiClock)
+        fragment_word_restartFAB.isClickable = false
+        fragment_word_listFAB.isClickable = false
+        isOpen = false
+    }
+
+    private fun openFAB() {
+        fragment_word_restartMTV.visibility = View.VISIBLE
+        fragment_word_listMTV.visibility = View.VISIBLE
+        fragment_word_restartFAB.startAnimation(fabOpen)
+        fragment_word_listFAB.startAnimation(fabOpen)
+        fragment_word_mainFAB.startAnimation(fabClock)
+        fragment_word_restartFAB.isClickable = true
+        fragment_word_listFAB.isClickable = true
+        isOpen = true
+    }
+
+    override fun onItemClick(word: Word) {
+        wordListDialog.dismiss()
+        index = fullWordList.indexOf(word.word)
+        saveIndex()
+        navigate(WordFragmentDirections.actionWordFragmentSelf())
     }
 
     private fun getCurrentWord() {

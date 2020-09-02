@@ -24,16 +24,32 @@
             android:layout_height="match_parent"
             android:background="@drawable/background_4">
 
-            <ImageView
-                android:id="@+id/fragment_phrase_soundIV"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="@string/app_name"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV"
-                app:srcCompat="@drawable/speaker" />
+                app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV">
+
+                <ImageView
+                    android:id="@+id/fragment_phrase_soundIV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/speaker" />
+
+                <ImageView
+                    android:id="@+id/fragment_phrase_settingsIV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/settings" />
+
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/fragment_phrase_phraseMeaningMCV"
