@@ -27,6 +27,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/acme"
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/hi_you_can_support_us_by_either_rate_the_app_or_suggest_the_app_to_your_friends"
@@ -38,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:fontFamily="@font/acme"
             android:text="@string/go_back"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimaryDark" />

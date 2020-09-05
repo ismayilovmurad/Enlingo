@@ -13,14 +13,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,17 +29,16 @@ import com.martiandeveloper.easyenglish.adapter.WordAdapter
 import com.martiandeveloper.easyenglish.adapter.WordCardAdapter
 import com.martiandeveloper.easyenglish.databinding.FragmentWordBinding
 import com.martiandeveloper.easyenglish.model.Word
-import com.martiandeveloper.easyenglish.viewmodel.WordViewModel
 import kotlinx.android.synthetic.main.fragment_word.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-const val WORD_SHARED_PREFERENCES = "WordIndex"
-const val WORD_KEY = "word_index"
-
 class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickListener {
 
-    private lateinit var vm: WordViewModel
+    private val wordSharedPreferences = "WordIndex"
+    private val wordKey = "word_index"
+
+    var wordList = ArrayList<Word>()
 
     private lateinit var binding: FragmentWordBinding
 
@@ -77,27 +72,12 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
     private lateinit var restartDialog: AlertDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        vm = getViewModel()
-    }
-
-    private fun getViewModel(): WordViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return WordViewModel(requireContext()) as T
-            }
-        })[WordViewModel::class.java]
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_word, container, false)
-        binding.wordViewModel = vm
         return binding.root
     }
 
@@ -108,15 +88,29 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
     private fun initUI() {
         getIndex()
-        vm.fillTheList()
+        fillTheList()
         setTheCard()
         setListeners()
-        binding.wordMeaning = vm.wordList.value?.get(0)?.meaning
+        binding.wordMeaning = wordList[0].meaning
         getCurrentWord()
         initTextToSpeech()
         setAds()
         isFinish()
         initAnimations()
+    }
+
+    private fun fillTheList() {
+        val words = context?.resources?.getStringArray(R.array.words)
+        val wordMeanings = context?.resources?.getStringArray(R.array.word_meanings)
+        val wordTranscriptions = context?.resources?.getStringArray(R.array.word_transcriptions)
+
+        val list = ArrayList<Word>()
+
+        for (i in words!!.indices) {
+            list.add(Word(words[i], wordMeanings!![i], wordTranscriptions!![i]))
+        }
+
+        wordList = list
     }
 
     private fun initAnimations() {
@@ -128,31 +122,27 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
     private fun getIndex() {
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(
-            WORD_SHARED_PREFERENCES,
+            wordSharedPreferences,
             Context.MODE_PRIVATE
         )
-        index = sharedPreferences.getInt(WORD_KEY, 0)
+        index = sharedPreferences.getInt(wordKey, 0)
     }
 
     private fun setTheCard() {
-        vm.wordList.value?.subList(0, index)?.clear()
+        wordList.subList(0, index).clear()
 
-        if (vm.wordList.value != null) {
-            cardAdapter = WordCardAdapter(requireContext(), vm.wordList.value!!)
-            fragment_word_mainSFAV.adapter = cardAdapter
-        }
+        cardAdapter = WordCardAdapter(requireContext(), wordList)
+        fragment_word_mainSFAV.adapter = cardAdapter
     }
 
     private fun setListeners() {
         fragment_word_mainSFAV.setFlingListener(object : onFlingListener {
             override fun removeFirstObjectInAdapter() {
-                vm.wordList.value?.removeAt(0)
+                wordList.removeAt(0)
                 cardAdapter.notifyDataSetChanged()
-                binding.wordMeaning = vm.wordList.value?.get(0)?.meaning
+                binding.wordMeaning = wordList[0].meaning
 
-                if (vm.wordList.value?.get(0)?.word != null) {
-                    currentWord = vm.wordList.value?.get(0)?.word!!
-                }
+                currentWord = wordList[0].word
 
                 index++
 
@@ -164,10 +154,8 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
                     }
                 }
 
-                if (vm.wordList.value != null) {
-                    if (vm.wordList.value!!.size < 3) {
-                        showFinishDialog()
-                    }
+                if (wordList.size < 3) {
+                    showFinishDialog()
                 }
             }
 
@@ -176,6 +164,7 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {}
             override fun onScroll(v: Float) {}
         })
+
         fragment_word_soundFL.setOnClickListener(this)
         fragment_word_mainFAB.setOnClickListener(this)
         fragment_word_restartFAB.setOnClickListener(this)
@@ -210,11 +199,11 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
     private fun saveIndex() {
         val sharedPreferences = requireContext().getSharedPreferences(
-            WORD_SHARED_PREFERENCES,
+            wordSharedPreferences,
             AppCompatActivity.MODE_PRIVATE
         )
         val editor = sharedPreferences.edit()
-        editor.putInt(WORD_KEY, index)
+        editor.putInt(wordKey, index)
         editor.apply()
     }
 
@@ -297,7 +286,7 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
         }
 
         layoutWordListMainRV.layoutManager = LinearLayoutManager(context)
-        wordAdapter = WordAdapter(wordsList, requireContext(), this,binding.wordMeaning)
+        wordAdapter = WordAdapter(wordsList, requireContext(), this, binding.wordMeaning)
         layoutWordListMainRV.adapter = wordAdapter
         layoutWordListMainRV.scrollToPosition(index)
 
@@ -357,9 +346,7 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
     }
 
     private fun getCurrentWord() {
-        if (vm.wordList.value?.get(0)?.word != null) {
-            currentWord = vm.wordList.value?.get(0)?.word!!
-        }
+        currentWord = wordList[0].word
     }
 
     private fun initTextToSpeech() {
@@ -420,7 +407,7 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
     }
 
     private fun isFinish() {
-        if (vm.wordList.value?.get(0)?.word == "End" || vm.wordList.value?.get(0)?.word!!.startsWith(
+        if (wordList[0].word == "End" || wordList[0].word.startsWith(
                 "Congratulations"
             )
         ) {

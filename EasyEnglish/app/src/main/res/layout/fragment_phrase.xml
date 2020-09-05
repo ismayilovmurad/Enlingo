@@ -5,10 +5,6 @@
     <data>
 
         <variable
-            name="phraseViewModel"
-            type="com.martiandeveloper.easyenglish.viewmodel.PhraseViewModel" />
-
-        <variable
             name="phraseMeaning"
             type="String" />
 
@@ -23,33 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_4">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV">
-
-                <ImageView
-                    android:id="@+id/fragment_phrase_soundIV"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="8dp"
-                    android:contentDescription="@string/app_name"
-                    app:srcCompat="@drawable/speaker" />
-
-                <ImageView
-                    android:id="@+id/fragment_phrase_settingsIV"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp"
-                    android:contentDescription="@string/app_name"
-                    app:srcCompat="@drawable/settings" />
-
-            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/fragment_phrase_phraseMeaningMCV"
@@ -66,17 +35,65 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/fragment_phrase_phraseMeaningMTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
+                    android:fontFamily="@font/acme"
                     android:text="@{phraseMeaning}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fragment_phrase_listFAB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="158dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV"
+                app:srcCompat="@drawable/ic_list"
+                app:tint="@color/colorPrimaryDark" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fragment_phrase_restartFAB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="88dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV"
+                app:srcCompat="@drawable/ic_restart"
+                app:tint="@color/colorPrimaryDark" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fragment_phrase_mainFAB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="visible"
+                app:backgroundTint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV"
+                app:srcCompat="@drawable/settings"
+                app:tint="@color/colorPrimaryDark" />
 
             <com.lorentzos.flingswipe.SwipeFlingAdapterView
                 android:id="@+id/fragment_phrase_mainSFAV"
@@ -87,6 +104,54 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:max_visible="4" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_phrase_listMTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@color/colorAccent"
+                android:fontFamily="@font/acme"
+                android:padding="8dp"
+                android:text="@string/list"
+                android:textColor="@color/colorPrimary"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_phrase_listFAB"
+                app:layout_constraintEnd_toStartOf="@id/fragment_phrase_listFAB"
+                app:layout_constraintTop_toTopOf="@id/fragment_phrase_listFAB" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_phrase_restartMTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@color/colorAccent"
+                android:fontFamily="@font/acme"
+                android:padding="8dp"
+                android:text="@string/restart"
+                android:textColor="@color/colorPrimary"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_phrase_restartFAB"
+                app:layout_constraintEnd_toStartOf="@id/fragment_phrase_restartFAB"
+                app:layout_constraintTop_toTopOf="@id/fragment_phrase_restartFAB" />
+
+            <FrameLayout
+                android:id="@+id/fragment_phrase_soundFL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_phrase_bannerAdPlaceholderFL"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/speaker" />
+
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/fragment_phrase_bannerAdPlaceholderFL"

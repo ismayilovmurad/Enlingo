@@ -15,7 +15,7 @@ class WordAdapter(
     private val languageList: ArrayList<Word>,
     private val context: Context,
     private val itemCLickListener: ItemClickListener,
-    private val wordMeaning:String?,
+    private val wordMeaning: String?,
 ) : RecyclerView.Adapter<WordViewHolder>(), Filterable {
 
     var wordFilterList = ArrayList<Word>()
@@ -37,7 +37,7 @@ class WordAdapter(
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val word: Word = wordFilterList[position]
-        holder.bind(word, itemCLickListener,context,wordMeaning)
+        holder.bind(word, itemCLickListener, context, wordMeaning)
     }
 
     override fun getItemCount(): Int = wordFilterList.size

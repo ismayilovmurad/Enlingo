@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recyclerview_word_item_mainLL"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:id="@+id/recyclerview_word_item_mainLL"
     android:padding="8dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/recyclerview_word_item_wordMTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/acme"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp" />
 
@@ -18,6 +19,7 @@
         android:id="@+id/recyclerview_word_item_meaningMTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/acme"
         android:textColor="@color/colorThree"
         android:textSize="16sp" />
 

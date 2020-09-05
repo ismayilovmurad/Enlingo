@@ -27,5 +27,4 @@ class WordCardAdapter(private val mContext: Context, private val list: List<Word
 
         return listItem
     }
-
 }

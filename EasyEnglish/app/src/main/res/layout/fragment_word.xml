@@ -5,10 +5,6 @@
     <data>
 
         <variable
-            name="wordViewModel"
-            type="com.martiandeveloper.easyenglish.viewmodel.WordViewModel" />
-
-        <variable
             name="wordMeaning"
             type="String" />
 
@@ -43,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
+                    android:fontFamily="@font/acme"
                     android:text="@{wordMeaning}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"
@@ -114,6 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@color/colorAccent"
+                android:fontFamily="@font/acme"
                 android:padding="8dp"
                 android:text="@string/list"
                 android:textColor="@color/colorPrimary"
@@ -128,6 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@color/colorAccent"
+                android:fontFamily="@font/acme"
                 android:padding="8dp"
                 android:text="@string/restart"
                 android:textColor="@color/colorPrimary"

@@ -48,15 +48,15 @@ ext {
     // Target Sdk Version
     targetSdkVersion = 29
     // Version Code
-    versionCode = 1
+    versionCode = 2
     // Version Name
-    versionName = "1.0"
+    versionName = "1.1"
     // KTX
     ktx = "1.3.1"
     // AppCompat
     appcompat = "1.2.0"
     // ConstraintLayout
-    constraintlayout = "2.0.0"
+    constraintlayout = "2.0.1"
     // Test
     junit = "4.13"
     junit2 = "1.1.2"
@@ -65,7 +65,7 @@ ext {
     firebase_core = "17.5.0"
     firebase_analytics = "17.5.0"
     // Material
-    material = "1.2.0"
+    material = "1.2.1"
     // Navigation
     navigation = "2.3.0"
     // Lifecycle

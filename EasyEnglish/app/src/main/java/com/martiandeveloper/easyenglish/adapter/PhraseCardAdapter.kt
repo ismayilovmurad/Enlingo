@@ -27,5 +27,4 @@ class PhraseCardAdapter(private val mContext: Context, private val list: List<Ph
 
         return listItem
     }
-
 }
