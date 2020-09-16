@@ -22,14 +22,10 @@
     <string name="no">Hayır</string>
     <string name="do_you_really_want_to_restart_the_cards">Gerçekten kartları sıfırlamak istiyor musun?</string>
     <!--Ads-->
-    <string name="word_fragment_banner">ca-app-pub-3036948542324685/9372306061</string>
-    <string name="phrase_fragment_banner">ca-app-pub-3036948542324685/7731921331</string>
-    <string name="word_fragment_interstitial">ca-app-pub-3036948542324685/9636848187</string>
-    <string name="phrase_fragment_interstitial">ca-app-pub-3036948542324685/4384521503</string>
-    <!--<string name="word_fragment_banner">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="phrase_fragment_banner">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="word_fragment_interstitial">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="phrase_fragment_interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
+    <!--<string name="main_activity_banner">ca-app-pub-3036948542324685/6817981258</string>
+    <string name="main_activity_interstitial">ca-app-pub-3036948542324685/9252572905</string>-->
+    <string name="main_activity_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="main_activity_interstitial">ca-app-pub-3940256099942544/1033173712</string>
 
     <!--Intro titles-->
     <string-array name="titles">

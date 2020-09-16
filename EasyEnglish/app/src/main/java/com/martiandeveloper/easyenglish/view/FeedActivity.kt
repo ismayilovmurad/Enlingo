@@ -5,14 +5,20 @@ package com.martiandeveloper.easyenglish.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Display
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.martiandeveloper.easyenglish.R
+import kotlinx.android.synthetic.main.activity_feed.*
 
 class FeedActivity : AppCompatActivity() {
 
@@ -23,6 +29,8 @@ class FeedActivity : AppCompatActivity() {
 
     private val TAG = "Martian developer"
 
+    private lateinit var adView: AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initUI()
@@ -32,6 +40,7 @@ class FeedActivity : AppCompatActivity() {
         setContentView(R.layout.activity_feed)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         checkUpdate()
+        setAds()
     }
 
     private fun checkUpdate() {
@@ -101,5 +110,38 @@ class FeedActivity : AppCompatActivity() {
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun setAds() {
+        // Banner
+        adView = AdView(applicationContext)
+        adView.adUnitId = resources.getString(R.string.main_activity_banner)
+
+        activity_feed_bannerAdPlaceholderFL.addView(adView)
+
+        val bannerAdRequest = AdRequest.Builder().build()
+
+        val adSize = getAdSize()
+        if (adSize != null) {
+            adView.adSize = adSize
+        }
+        adView.loadAd(bannerAdRequest)
+    }
+
+    private fun getAdSize(): AdSize? {
+        val display: Display? = windowManager.defaultDisplay
+        return if (display != null) {
+            val outMetrics = DisplayMetrics()
+            display.getMetrics(outMetrics)
+
+            val widthPixels = outMetrics.widthPixels.toFloat()
+            val density = outMetrics.density
+
+            val adWidth = (widthPixels / density).toInt()
+
+            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(applicationContext, adWidth)
+        } else {
+            null
+        }
     }
 }

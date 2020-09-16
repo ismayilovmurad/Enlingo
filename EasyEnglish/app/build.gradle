@@ -22,32 +22,27 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     buildTypes {
         release {
-            // Enables code shrinking, obfuscation, and optimization for only
-            // your project's release build type.
-            minifyEnabled true
+            minifyEnabled false
 
-            // Enables resource shrinking, which is performed by the
-            // Android Gradle plugin.
-            shrinkResources true
-
-            // Includes the default ProGuard rules files that are packaged with
-            // the Android Gradle plugin. To learn more, go to the section about
-            // R8 configuration files.
             proguardFiles getDefaultProguardFile(
                     'proguard-android-optimize.txt'),
                     'proguard-rules.pro'
         }
     }
 
+    buildFeatures {
+        dataBinding true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
@@ -72,15 +67,17 @@ dependencies {
     // Material
     implementation "com.google.android.material:material:$material"
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
     // Lifecycle
-    implementation "android.arch.lifecycle:extensions:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle"
     // Google Ads
     implementation "com.google.android.gms:play-services-ads:$googleAds"
     // SwipeCards
     implementation "com.lorentzos.swipecards:library:$swipecards"
-    // Play core library for In-App Review
+    // Play core library for In-App review, In-App update
     implementation "com.google.android.play:core:$playcore"
     implementation "com.google.android.play:core-ktx:$playcorektx"
 }

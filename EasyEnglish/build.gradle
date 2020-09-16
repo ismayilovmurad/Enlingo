@@ -3,7 +3,7 @@ buildscript {
     // Gradle
     ext.gradle_version = "4.0.1"
     // Kotlin
-    ext.kotlin_version = "1.4.0"
+    ext.kotlin_version = "1.4.10"
     // Firebase
     ext.firebase_version = "4.3.3"
     // Navigation
@@ -66,12 +66,10 @@ ext {
     firebase_analytics = "17.5.0"
     // Material
     material = "1.2.1"
-    // Navigation
-    navigation = "2.3.0"
     // Lifecycle
-    lifecycle = "1.1.1"
+    lifecycle = "2.2.0"
     // Google Ads
-    googleAds = "19.3.0"
+    googleAds = "19.4.0"
     // SwipeCards
     swipecards = "1.0.9"
     // Play core library for In-App Review

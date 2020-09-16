@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.ads.MobileAds
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.database.DatabaseHelper
 import com.martiandeveloper.easyenglish.viewmodel.SplashViewModel
@@ -29,11 +29,11 @@ class SplashActivity : AppCompatActivity() {
         activity = this
         databaseHelper = DatabaseHelper(this)
         vm = getViewModel()
-        vm.checkDatabase()
+        initAd()
     }
 
     private fun getViewModel(): SplashViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
+        return ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
                 return SplashViewModel(applicationContext, databaseHelper, activity) as T
@@ -44,5 +44,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onDestroy() {
         databaseHelper.close()
         super.onDestroy()
+    }
+
+    private fun initAd() {
+        MobileAds.initialize(applicationContext) {
+            vm.checkDatabase()
+        }
     }
 }

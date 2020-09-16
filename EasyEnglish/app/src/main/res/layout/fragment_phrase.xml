@@ -40,6 +40,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:fontFamily="@font/acme"
+                    android:gravity="center"
                     android:text="@{phraseMeaning}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"
@@ -142,7 +143,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:padding="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/fragment_phrase_bannerAdPlaceholderFL"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
@@ -152,14 +153,6 @@
                     app:srcCompat="@drawable/speaker" />
 
             </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/fragment_phrase_bannerAdPlaceholderFL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

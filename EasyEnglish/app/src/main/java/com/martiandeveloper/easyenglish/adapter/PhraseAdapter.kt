@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.martiandeveloper.easyenglish.R
+import com.martiandeveloper.easyenglish.databinding.RecyclerviewPhraseItemBinding
 import com.martiandeveloper.easyenglish.holder.PhraseViewHolder
 import com.martiandeveloper.easyenglish.model.Phrase
 import java.util.*
@@ -28,11 +31,13 @@ class PhraseAdapter(
         parent: ViewGroup,
         viewType: Int
     ): PhraseViewHolder {
-        val inflater = LayoutInflater.from(context)
-        return PhraseViewHolder(
-            inflater,
-            parent
-        )
+        val binding: RecyclerviewPhraseItemBinding = DataBindingUtil
+            .inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.recyclerview_phrase_item,
+                parent,
+                false
+            )
     }
 
     override fun onBindViewHolder(holder: PhraseViewHolder, position: Int) {

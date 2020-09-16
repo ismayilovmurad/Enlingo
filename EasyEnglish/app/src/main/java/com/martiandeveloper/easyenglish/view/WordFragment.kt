@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
-import android.util.DisplayMetrics
-import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +19,9 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.button.MaterialButton
 import com.lorentzos.flingswipe.SwipeFlingAdapterView.onFlingListener
 import com.martiandeveloper.easyenglish.R
@@ -53,7 +53,6 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
     private var adIndex = 0
 
     private lateinit var interstitialAd: InterstitialAd
-    private lateinit var adView: AdView
 
     private lateinit var finishDialog: AlertDialog
 
@@ -358,25 +357,9 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
     }
 
     private fun setAds() {
-        MobileAds.initialize(context)
-
-        // Banner
-        adView = AdView(context)
-        adView.adUnitId = resources.getString(R.string.word_fragment_banner)
-
-        fragment_word_bannerAdPlaceholderFL.addView(adView)
-
-        val bannerAdRequest = AdRequest.Builder().build()
-
-        val adSize = getAdSize()
-        if (adSize != null) {
-            adView.adSize = adSize
-        }
-        adView.loadAd(bannerAdRequest)
-
         // Interstitial
         interstitialAd = InterstitialAd(context)
-        interstitialAd.adUnitId = resources.getString(R.string.word_fragment_interstitial)
+        interstitialAd.adUnitId = resources.getString(R.string.main_activity_interstitial)
 
         val interstitialAdRequest = AdRequest.Builder().build()
         interstitialAd.loadAd(interstitialAdRequest)
@@ -386,23 +369,6 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
                 super.onAdClosed()
                 interstitialAd.loadAd(interstitialAdRequest)
             }
-        }
-    }
-
-    private fun getAdSize(): AdSize? {
-        val display: Display? = activity?.windowManager?.defaultDisplay
-        return if (display != null) {
-            val outMetrics = DisplayMetrics()
-            display.getMetrics(outMetrics)
-
-            val widthPixels = outMetrics.widthPixels.toFloat()
-            val density = outMetrics.density
-
-            val adWidth = (widthPixels / density).toInt()
-
-            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
-        } else {
-            null
         }
     }
 
