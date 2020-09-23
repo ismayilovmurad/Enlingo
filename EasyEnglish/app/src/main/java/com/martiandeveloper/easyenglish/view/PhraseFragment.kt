@@ -1,6 +1,5 @@
 package com.martiandeveloper.easyenglish.view
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -18,29 +17,29 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
-import com.google.android.material.button.MaterialButton
 import com.lorentzos.flingswipe.SwipeFlingAdapterView.onFlingListener
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.adapter.PhraseAdapter
 import com.martiandeveloper.easyenglish.adapter.PhraseCardAdapter
+import com.martiandeveloper.easyenglish.databinding.DialogFinishPhraseBinding
+import com.martiandeveloper.easyenglish.databinding.DialogRestartPhraseBinding
 import com.martiandeveloper.easyenglish.databinding.FragmentPhraseBinding
+import com.martiandeveloper.easyenglish.databinding.LayoutListPhraseBinding
 import com.martiandeveloper.easyenglish.model.Phrase
-import kotlinx.android.synthetic.main.fragment_phrase.*
+import com.martiandeveloper.easyenglish.utils.MAIN_ACTIVITY_INTERSTITIAL
+import com.martiandeveloper.easyenglish.utils.PHRASE_KEY
+import com.martiandeveloper.easyenglish.utils.PHRASE_SHARED_PREFERENCES
 import java.util.*
 import kotlin.collections.ArrayList
 
 class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClickListener {
 
-    private val phraseSharedPreferences = "PhraseIndex"
-    private val phraseKey = "phrase_index"
-
     var phraseList = ArrayList<Phrase>()
 
-    private lateinit var binding: FragmentPhraseBinding
+    private lateinit var mainBinding: FragmentPhraseBinding
 
     private lateinit var cardAdapter: PhraseCardAdapter
 
@@ -75,9 +74,9 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
+        mainBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_phrase, container, false)
-        return binding.root
+        return mainBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,12 +89,17 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
         fillTheList()
         setTheCard()
         setListeners()
-        binding.phraseMeaning = phraseList[0].meaning
+        mainBinding.phraseMeaning = phraseList[0].meaning
         getCurrentPhrase()
         initTextToSpeech()
         setAds()
         isFinish()
         initAnimations()
+        mainBinding.isRestartMTVGone = true
+        mainBinding.isListMTVGone = true
+        mainBinding.isRestartFABGone = true
+        mainBinding.isListFABGone = true
+        mainBinding.onClickListener = this
     }
 
     private fun fillTheList() {
@@ -121,25 +125,25 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
 
     private fun getIndex() {
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(
-            phraseSharedPreferences,
+            PHRASE_SHARED_PREFERENCES,
             Context.MODE_PRIVATE
         )
-        index = sharedPreferences.getInt(phraseKey, 0)
+        index = sharedPreferences.getInt(PHRASE_KEY, 0)
     }
 
     private fun setTheCard() {
         phraseList.subList(0, index).clear()
 
         cardAdapter = PhraseCardAdapter(requireContext(), phraseList)
-        fragment_phrase_mainSFAV.adapter = cardAdapter
+        mainBinding.fragmentPhraseMainSFAV.adapter = cardAdapter
     }
 
     private fun setListeners() {
-        fragment_phrase_mainSFAV.setFlingListener(object : onFlingListener {
+        mainBinding.fragmentPhraseMainSFAV.setFlingListener(object : onFlingListener {
             override fun removeFirstObjectInAdapter() {
                 phraseList.removeAt(0)
                 cardAdapter.notifyDataSetChanged()
-                binding.phraseMeaning = phraseList[0].meaning
+                mainBinding.phraseMeaning = phraseList[0].meaning
 
                 currentPhrase = phraseList[0].phrase
 
@@ -163,23 +167,15 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {}
             override fun onScroll(v: Float) {}
         })
-
-        fragment_phrase_soundFL.setOnClickListener(this)
-        fragment_phrase_mainFAB.setOnClickListener(this)
-        fragment_phrase_restartFAB.setOnClickListener(this)
-        fragment_phrase_listFAB.setOnClickListener(this)
     }
 
     private fun showFinishDialog() {
         finishDialog = AlertDialog.Builder(context).create()
-        @SuppressLint("InflateParams") val view: View =
-            layoutInflater.inflate(R.layout.dialog_finish, null)
-        val dialogFinishStartAgainBTN: MaterialButton =
-            view.findViewById(R.id.dialog_finish_startAgainMBTN)
-        val dialogFinishHomeBTN: MaterialButton = view.findViewById(R.id.dialog_finish_homeMBTN)
-        dialogFinishStartAgainBTN.setOnClickListener(this)
-        dialogFinishHomeBTN.setOnClickListener(this)
-        finishDialog.setView(view)
+        val binding = DialogFinishPhraseBinding.inflate(LayoutInflater.from(context))
+
+        binding.onClickListener = this
+
+        finishDialog.setView(binding.root)
         finishDialog.setCanceledOnTouchOutside(false)
         finishDialog.setCancelable(false)
         finishDialog.show()
@@ -198,11 +194,11 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
 
     private fun saveIndex() {
         val sharedPreferences = requireContext().getSharedPreferences(
-            phraseSharedPreferences,
+            PHRASE_SHARED_PREFERENCES,
             AppCompatActivity.MODE_PRIVATE
         )
         val editor = sharedPreferences.edit()
-        editor.putInt(phraseKey, index)
+        editor.putInt(PHRASE_KEY, index)
         editor.apply()
     }
 
@@ -210,11 +206,11 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
         if (v != null) {
             when (v.id) {
                 R.id.fragment_phrase_soundFL -> speak()
-                R.id.dialog_finish_startAgainMBTN -> restart(
+                R.id.dialog_finish_phrase_startAgainMBTN -> restart(
                     finishDialog,
                     PhraseFragmentDirections.actionPhraseFragmentSelf()
                 )
-                R.id.dialog_finish_homeMBTN -> restart(
+                R.id.dialog_finish_phrase_homeMBTN -> restart(
                     finishDialog,
                     PhraseFragmentDirections.actionPhraseFragmentToHomeFragment()
                 )
@@ -227,28 +223,22 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
                     closeFAB()
                     openPhraseListDialog(v)
                 }
-                R.id.dialog_restart_yesMBTN -> restart(
+                R.id.dialog_restart_phrase_yesMBTN -> restart(
                     restartDialog,
                     PhraseFragmentDirections.actionPhraseFragmentSelf()
                 )
-                R.id.dialog_restart_noMBTN -> restartDialog.dismiss()
+                R.id.dialog_restart_phrase_noMBTN -> restartDialog.dismiss()
             }
         }
     }
 
     private fun openRestartDialog(v: View?) {
         restartDialog = AlertDialog.Builder(v?.context).create()
-        val view = layoutInflater.inflate(R.layout.dialog_restart, null)
+        val binding = DialogRestartPhraseBinding.inflate(LayoutInflater.from(context))
 
-        val dialogRestartYesMBTN =
-            view.findViewById<MaterialButton>(R.id.dialog_restart_yesMBTN)
-        val dialogRestartNoMBTN =
-            view.findViewById<MaterialButton>(R.id.dialog_restart_noMBTN)
+        binding.onClickListener = this
 
-        dialogRestartYesMBTN.setOnClickListener(this)
-        dialogRestartNoMBTN.setOnClickListener(this)
-
-        restartDialog.setView(view)
+        restartDialog.setView(binding.root)
         restartDialog.show()
     }
 
@@ -258,12 +248,10 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
 
     private fun openPhraseListDialog(v: View?) {
         phraseListDialog = AlertDialog.Builder(v?.context).create()
-        val view = layoutInflater.inflate(R.layout.layout_phrase_list, null)
+        val binding = LayoutListPhraseBinding.inflate(LayoutInflater.from(context))
 
-        val layoutPhraseListMainRV =
-            view.findViewById<RecyclerView>(R.id.layout_phrase_list_mainRV)
-        val phraseList =
-            ArrayList(listOf(*resources.getStringArray(R.array.phrases)))
+        val layoutPhraseListMainRV = binding.layoutListPhraseMainRV
+        val phraseList = ArrayList(listOf(*resources.getStringArray(R.array.phrases)))
 
         fullPhraseList = phraseList
 
@@ -285,12 +273,12 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
         }
 
         layoutPhraseListMainRV.layoutManager = LinearLayoutManager(context)
-        phraseAdapter = PhraseAdapter(phrasesList, requireContext(), this, binding.phraseMeaning)
+        phraseAdapter =
+            PhraseAdapter(phrasesList, requireContext(), this, mainBinding.phraseMeaning)
         layoutPhraseListMainRV.adapter = phraseAdapter
         layoutPhraseListMainRV.scrollToPosition(index)
 
-        val layoutPhraseListMainSV =
-            view.findViewById<SearchView>(R.id.layout_phrase_list_mainSV)
+        val layoutPhraseListMainSV = binding.layoutListPhraseMainSV
         layoutPhraseListMainSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -303,7 +291,7 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
 
         })
 
-        phraseListDialog.setView(view)
+        phraseListDialog.setView(binding.root)
         phraseListDialog.show()
     }
 
@@ -316,24 +304,20 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
     }
 
     private fun closeFAB() {
-        fragment_phrase_restartMTV.visibility = View.INVISIBLE
-        fragment_phrase_listMTV.visibility = View.INVISIBLE
-        fragment_phrase_restartFAB.startAnimation(fabClose)
-        fragment_phrase_listFAB.startAnimation(fabClose)
-        fragment_phrase_mainFAB.startAnimation(fabAntiClock)
-        fragment_phrase_restartFAB.isClickable = false
-        fragment_phrase_listFAB.isClickable = false
+        mainBinding.isRestartMTVGone = true
+        mainBinding.isListMTVGone = true
+        mainBinding.fragmentPhraseRestartFAB.startAnimation(fabClose)
+        mainBinding.fragmentPhraseListFAB.startAnimation(fabClose)
+        mainBinding.fragmentPhraseMainFAB.startAnimation(fabAntiClock)
         isOpen = false
     }
 
     private fun openFAB() {
-        fragment_phrase_restartMTV.visibility = View.VISIBLE
-        fragment_phrase_listMTV.visibility = View.VISIBLE
-        fragment_phrase_restartFAB.startAnimation(fabOpen)
-        fragment_phrase_listFAB.startAnimation(fabOpen)
-        fragment_phrase_mainFAB.startAnimation(fabClock)
-        fragment_phrase_restartFAB.isClickable = true
-        fragment_phrase_listFAB.isClickable = true
+        mainBinding.isRestartMTVGone = false
+        mainBinding.isListMTVGone = false
+        mainBinding.fragmentPhraseRestartFAB.startAnimation(fabOpen)
+        mainBinding.fragmentPhraseListFAB.startAnimation(fabOpen)
+        mainBinding.fragmentPhraseMainFAB.startAnimation(fabClock)
         isOpen = true
     }
 
@@ -359,7 +343,7 @@ class PhraseFragment : Fragment(), View.OnClickListener, PhraseAdapter.ItemClick
     private fun setAds() {
         // Interstitial
         interstitialAd = InterstitialAd(context)
-        interstitialAd.adUnitId = resources.getString(R.string.main_activity_interstitial)
+        interstitialAd.adUnitId = MAIN_ACTIVITY_INTERSTITIAL
 
         val interstitialAdRequest = AdRequest.Builder().build()
         interstitialAd.loadAd(interstitialAdRequest)

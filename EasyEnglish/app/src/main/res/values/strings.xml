@@ -10,22 +10,23 @@
     <string name="phrases">İfadeler</string>
     <string name="test">Test</string>
     <string name="the_test_section_is_under_development">Test bölümü geliştirme aşamasında.</string>
-    <string name="hi_you_can_support_us_by_either_rate_the_app_or_suggest_the_app_to_your_friends">Merhaba, uygulamaya puan vererek veya uygulamayı arkadaşlarına önererek bize destek olabilirsin.</string>
-    <string name="go_back">Geri dön</string>
-    <string name="you_finished_words">Tebrikler, tüm kartları bitirdin</string>
+    <string name="you_finished_words">Tebrikler, tüm kelimeleri bitirdin</string>
+    <string name="you_finished_phrases">Tebrikler, tüm ifadeleri bitirdin</string>
     <string name="start_again">Yeniden başla</string>
     <string name="home">Ana sayfa</string>
     <string name="restart">Sıfırla</string>
     <string name="list">Liste</string>
-    <string name="search">Ara</string>
+    <string name="search_word">Kelime ara</string>
+    <string name="search_phrase">İfade ara</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
-    <string name="do_you_really_want_to_restart_the_cards">Gerçekten kartları sıfırlamak istiyor musun?</string>
-    <!--Ads-->
-    <!--<string name="main_activity_banner">ca-app-pub-3036948542324685/6817981258</string>
-    <string name="main_activity_interstitial">ca-app-pub-3036948542324685/9252572905</string>-->
-    <string name="main_activity_banner">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="main_activity_interstitial">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="do_you_really_want_to_restart_the_words">Gerçekten kelimeleri sıfırlamak istiyor musun?</string>
+    <string name="do_you_really_want_to_restart_the_phrases">Gerçekten ifadeleri sıfırlamak istiyor musun?</string>
+    <string name="about">Hakkımızda</string>
+    <string name="send_us_a_message">Bize mesaj gönder</string>
+    <string name="invite_your_friend">Arkadaşını davet et</string>
+    <string name="version">Version</string>
+    <string name="this_section_is_under_development">Bu bölüm geliştirme aşamasında.</string>
 
     <!--Intro titles-->
     <string-array name="titles">

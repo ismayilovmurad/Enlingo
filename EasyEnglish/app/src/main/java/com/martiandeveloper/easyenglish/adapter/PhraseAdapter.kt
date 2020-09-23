@@ -38,6 +38,7 @@ class PhraseAdapter(
                 parent,
                 false
             )
+        return PhraseViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PhraseViewHolder, position: Int) {

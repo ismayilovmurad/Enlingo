@@ -1,18 +1,16 @@
 package com.martiandeveloper.easyenglish.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
-import com.google.android.material.textview.MaterialTextView
 import com.martiandeveloper.easyenglish.R
+import com.martiandeveloper.easyenglish.databinding.LayoutIntroBinding
 import com.martiandeveloper.easyenglish.model.Splash
 
 class IntroAdapter(
-    private val context: Context,
     private val splashList: List<Splash>
 ) :
     PagerAdapter() {
@@ -25,18 +23,19 @@ class IntroAdapter(
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val layoutInflater =
-            (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
-        val view: View = layoutInflater.inflate(R.layout.layout_intro, container, false)
+        val binding: LayoutIntroBinding = DataBindingUtil
+            .inflate(
+                LayoutInflater.from(container.context),
+                R.layout.layout_intro,
+                container,
+                false
+            )
 
-        val layoutIntroMainIV = view.findViewById<ImageView>(R.id.layout_intro_mainIV)
-        val layoutIntroTitleTV: MaterialTextView = view.findViewById(R.id.layout_intro_titleTV)
-        val layoutIntroDescriptionTV: MaterialTextView =
-            view.findViewById(R.id.layout_intro_descriptionTV)
+        binding.layoutIntroMainIV.setImageResource(splashList[position].image)
+        binding.title = splashList[position].title
+        binding.description = splashList[position].description
 
-        layoutIntroMainIV.setImageResource(splashList[position].image)
-        layoutIntroTitleTV.text = splashList[position].title
-        layoutIntroDescriptionTV.text = splashList[position].description
+        val view = binding.root
 
         container.addView(view)
         return view

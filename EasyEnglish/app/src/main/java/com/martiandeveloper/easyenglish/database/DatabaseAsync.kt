@@ -9,10 +9,10 @@ import android.os.AsyncTask
 import android.os.Handler
 import android.widget.Toast
 import com.martiandeveloper.easyenglish.R
+import com.martiandeveloper.easyenglish.utils.INTRO_KEY
+import com.martiandeveloper.easyenglish.utils.INTRO_SHARED_PREFERENCES
 import com.martiandeveloper.easyenglish.view.FeedActivity
 import com.martiandeveloper.easyenglish.view.IntroActivity
-import com.martiandeveloper.easyenglish.viewmodel.INTRO_KEY
-import com.martiandeveloper.easyenglish.viewmodel.INTRO_SHARED_PREFERENCES
 
 @SuppressLint("StaticFieldLeak")
 class DatabaseAsync(private val context: Context, private val activity: Activity) :

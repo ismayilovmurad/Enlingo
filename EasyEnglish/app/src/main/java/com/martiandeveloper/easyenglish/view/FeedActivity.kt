@@ -1,12 +1,9 @@
-@file:Suppress("PrivatePropertyName")
-
 package com.martiandeveloper.easyenglish.view
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Display
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
@@ -18,16 +15,14 @@ import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.martiandeveloper.easyenglish.R
+import com.martiandeveloper.easyenglish.utils.IN_APP_UPDATE_REQUEST_CODE
+import com.martiandeveloper.easyenglish.utils.MAIN_ACTIVITY_BANNER
 import kotlinx.android.synthetic.main.activity_feed.*
+import timber.log.Timber
 
 class FeedActivity : AppCompatActivity() {
 
-    // Creates instance of the manager.
     private var appUpdateManager: AppUpdateManager? = null
-
-    private var MY_REQUEST_CODE = 100
-
-    private val TAG = "Martian developer"
 
     private lateinit var adView: AdView
 
@@ -44,68 +39,48 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun checkUpdate() {
-        // Returns an intent object that you use to check for an update.
         val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
-        // Checks that the platform will allow the specified type of update.
-        // Checking for updates
         appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(IMMEDIATE)
             ) {
-                // Update available
-                // Request the update.
-
                 appUpdateManager?.startUpdateFlowForResult(
-                    // Pass the intent that is returned by 'getAppUpdateInfo()'.
                     appUpdateInfo,
-                    // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
                     IMMEDIATE,
-                    // The current activity making the update request.
                     this,
-                    // Include a request code to later monitor this update request.
-                    MY_REQUEST_CODE
+                    IN_APP_UPDATE_REQUEST_CODE
                 )
             }
         }
     }
 
-    // Checks that the update is not stalled during 'onResume()'.
-    // However, you should execute this check at all entry points into the app.
     override fun onResume() {
         super.onResume()
-
         appUpdateManager?.appUpdateInfo?.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability()
                 == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
             ) {
-                // If an in-app update is already running, resume the update.
                 appUpdateManager!!.startUpdateFlowForResult(
                     appUpdateInfo,
                     IMMEDIATE,
                     this,
-                    MY_REQUEST_CODE
+                    IN_APP_UPDATE_REQUEST_CODE
                 )
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == MY_REQUEST_CODE) {
+        if (requestCode == IN_APP_UPDATE_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    Log.d(TAG, "" + "Result Ok")
-                    //  handle user's approval }
+                    Timber.i("The result is okay")
                 }
                 Activity.RESULT_CANCELED -> {
-                    //if you want to request the update again just call checkUpdate()
-
-                    Log.d(TAG, "" + "Result Cancelled")
-                    //  handle user's rejection  }
+                    Timber.i("The result is cancelled")
                 }
                 ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-                    //if you want to request the update again just call checkUpdate()
-                    Log.d(TAG, "" + "Update Failure")
-                    //  handle update failure
+                    Timber.i("The result In-app update failed")
                 }
             }
         }
@@ -113,9 +88,8 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun setAds() {
-        // Banner
         adView = AdView(applicationContext)
-        adView.adUnitId = resources.getString(R.string.main_activity_banner)
+        adView.adUnitId = MAIN_ACTIVITY_BANNER
 
         activity_feed_bannerAdPlaceholderFL.addView(adView)
 

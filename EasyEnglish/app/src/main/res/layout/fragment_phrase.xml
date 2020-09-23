@@ -4,9 +4,31 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="phraseMeaning"
             type="String" />
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="isRestartFABGone"
+            type="Boolean" />
+
+        <variable
+            name="isListFABGone"
+            type="Boolean" />
+
+        <variable
+            name="isRestartMTVGone"
+            type="Boolean" />
+
+        <variable
+            name="isListMTVGone"
+            type="Boolean" />
 
     </data>
 
@@ -57,7 +79,8 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:visibility="invisible"
+                android:onClick="@{onClickListener::onClick}"
+                android:visibility="@{isListFABGone ? View.INVISIBLE : View.VISIBLE}"
                 app:backgroundTint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV"
@@ -73,7 +96,8 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:visibility="invisible"
+                android:onClick="@{onClickListener::onClick}"
+                android:visibility="@{isRestartFABGone ? View.INVISIBLE : View.VISIBLE}"
                 app:backgroundTint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV"
@@ -89,7 +113,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:visibility="visible"
+                android:onClick="@{onClickListener::onClick}"
                 app:backgroundTint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_phrase_phraseMeaningMCV"
@@ -116,7 +140,7 @@
                 android:padding="8dp"
                 android:text="@string/list"
                 android:textColor="@color/colorPrimary"
-                android:visibility="invisible"
+                android:visibility="@{isListMTVGone ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/fragment_phrase_listFAB"
                 app:layout_constraintEnd_toStartOf="@id/fragment_phrase_listFAB"
                 app:layout_constraintTop_toTopOf="@id/fragment_phrase_listFAB" />
@@ -131,7 +155,7 @@
                 android:padding="8dp"
                 android:text="@string/restart"
                 android:textColor="@color/colorPrimary"
-                android:visibility="invisible"
+                android:visibility="@{isRestartMTVGone ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/fragment_phrase_restartFAB"
                 app:layout_constraintEnd_toStartOf="@id/fragment_phrase_restartFAB"
                 app:layout_constraintTop_toTopOf="@id/fragment_phrase_restartFAB" />
@@ -142,6 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
+                android:onClick="@{onClickListener::onClick}"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">

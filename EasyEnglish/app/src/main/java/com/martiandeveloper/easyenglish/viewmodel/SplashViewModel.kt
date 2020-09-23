@@ -11,11 +11,10 @@ import androidx.lifecycle.ViewModel
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.database.DatabaseAsync
 import com.martiandeveloper.easyenglish.database.DatabaseHelper
+import com.martiandeveloper.easyenglish.utils.INTRO_KEY
+import com.martiandeveloper.easyenglish.utils.INTRO_SHARED_PREFERENCES
 import com.martiandeveloper.easyenglish.view.FeedActivity
 import com.martiandeveloper.easyenglish.view.IntroActivity
-
-const val INTRO_SHARED_PREFERENCES = "Intro"
-const val INTRO_KEY = "intro"
 
 @SuppressLint("StaticFieldLeak")
 class SplashViewModel(

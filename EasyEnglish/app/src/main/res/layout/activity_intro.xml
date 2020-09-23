@@ -9,11 +9,15 @@
 
         <variable
             name="isPreviousMBTNGone"
-            type="java.lang.Boolean" />
+            type="Boolean" />
 
         <variable
-            name="isPreviousMBTNClickable"
-            type="java.lang.Boolean" />
+            name="next"
+            type="String" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
 
     </data>
 
@@ -46,8 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
-                android:clickable="@{isPreviousMBTNClickable ? true : false,default=true}"
                 android:fontFamily="@font/acme"
+                android:onClick="@{listener::onClick}"
                 android:text="@string/previous"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
@@ -73,7 +77,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
                 android:fontFamily="@font/acme"
-                android:text="@string/next"
+                android:onClick="@{listener::onClick}"
+                android:text="@{next}"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"

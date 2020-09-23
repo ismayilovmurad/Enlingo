@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.martiandeveloper.easyenglish.R
+import com.martiandeveloper.easyenglish.databinding.RecyclerviewWordItemBinding
 import com.martiandeveloper.easyenglish.holder.WordViewHolder
 import com.martiandeveloper.easyenglish.model.Word
 import java.util.*
@@ -28,11 +31,14 @@ class WordAdapter(
         parent: ViewGroup,
         viewType: Int
     ): WordViewHolder {
-        val inflater = LayoutInflater.from(context)
-        return WordViewHolder(
-            inflater,
-            parent
-        )
+        val binding: RecyclerviewWordItemBinding = DataBindingUtil
+            .inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.recyclerview_word_item,
+                parent,
+                false
+            )
+        return WordViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {

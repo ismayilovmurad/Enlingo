@@ -80,4 +80,6 @@ dependencies {
     // Play core library for In-App review, In-App update
     implementation "com.google.android.play:core:$playcore"
     implementation "com.google.android.play:core-ktx:$playcorektx"
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timber"
 }

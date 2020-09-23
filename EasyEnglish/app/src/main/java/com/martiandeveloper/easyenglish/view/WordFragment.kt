@@ -1,6 +1,5 @@
 package com.martiandeveloper.easyenglish.view
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -18,29 +17,29 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
-import com.google.android.material.button.MaterialButton
 import com.lorentzos.flingswipe.SwipeFlingAdapterView.onFlingListener
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.adapter.WordAdapter
 import com.martiandeveloper.easyenglish.adapter.WordCardAdapter
+import com.martiandeveloper.easyenglish.databinding.DialogFinishWordBinding
+import com.martiandeveloper.easyenglish.databinding.DialogRestartWordBinding
 import com.martiandeveloper.easyenglish.databinding.FragmentWordBinding
+import com.martiandeveloper.easyenglish.databinding.LayoutListWordBinding
 import com.martiandeveloper.easyenglish.model.Word
-import kotlinx.android.synthetic.main.fragment_word.*
+import com.martiandeveloper.easyenglish.utils.MAIN_ACTIVITY_INTERSTITIAL
+import com.martiandeveloper.easyenglish.utils.PHRASE_KEY
+import com.martiandeveloper.easyenglish.utils.PHRASE_SHARED_PREFERENCES
 import java.util.*
 import kotlin.collections.ArrayList
 
 class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickListener {
 
-    private val wordSharedPreferences = "WordIndex"
-    private val wordKey = "word_index"
-
     var wordList = ArrayList<Word>()
 
-    private lateinit var binding: FragmentWordBinding
+    private lateinit var mainBinding: FragmentWordBinding
 
     private lateinit var cardAdapter: WordCardAdapter
 
@@ -75,9 +74,9 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
+        mainBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_word, container, false)
-        return binding.root
+        return mainBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,12 +89,17 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
         fillTheList()
         setTheCard()
         setListeners()
-        binding.wordMeaning = wordList[0].meaning
+        mainBinding.wordMeaning = wordList[0].meaning
         getCurrentWord()
         initTextToSpeech()
         setAds()
         isFinish()
         initAnimations()
+        mainBinding.isRestartMTVGone = true
+        mainBinding.isListMTVGone = true
+        mainBinding.isRestartFABGone = true
+        mainBinding.isListFABGone = true
+        mainBinding.onClickListener = this
     }
 
     private fun fillTheList() {
@@ -121,25 +125,25 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
     private fun getIndex() {
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(
-            wordSharedPreferences,
+            PHRASE_SHARED_PREFERENCES,
             Context.MODE_PRIVATE
         )
-        index = sharedPreferences.getInt(wordKey, 0)
+        index = sharedPreferences.getInt(PHRASE_KEY, 0)
     }
 
     private fun setTheCard() {
         wordList.subList(0, index).clear()
 
         cardAdapter = WordCardAdapter(requireContext(), wordList)
-        fragment_word_mainSFAV.adapter = cardAdapter
+        mainBinding.fragmentWordMainSFAV.adapter = cardAdapter
     }
 
     private fun setListeners() {
-        fragment_word_mainSFAV.setFlingListener(object : onFlingListener {
+        mainBinding.fragmentWordMainSFAV.setFlingListener(object : onFlingListener {
             override fun removeFirstObjectInAdapter() {
                 wordList.removeAt(0)
                 cardAdapter.notifyDataSetChanged()
-                binding.wordMeaning = wordList[0].meaning
+                mainBinding.wordMeaning = wordList[0].meaning
 
                 currentWord = wordList[0].word
 
@@ -163,23 +167,15 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {}
             override fun onScroll(v: Float) {}
         })
-
-        fragment_word_soundFL.setOnClickListener(this)
-        fragment_word_mainFAB.setOnClickListener(this)
-        fragment_word_restartFAB.setOnClickListener(this)
-        fragment_word_listFAB.setOnClickListener(this)
     }
 
     private fun showFinishDialog() {
         finishDialog = AlertDialog.Builder(context).create()
-        @SuppressLint("InflateParams") val view: View =
-            layoutInflater.inflate(R.layout.dialog_finish, null)
-        val dialogFinishStartAgainBTN: MaterialButton =
-            view.findViewById(R.id.dialog_finish_startAgainMBTN)
-        val dialogFinishHomeBTN: MaterialButton = view.findViewById(R.id.dialog_finish_homeMBTN)
-        dialogFinishStartAgainBTN.setOnClickListener(this)
-        dialogFinishHomeBTN.setOnClickListener(this)
-        finishDialog.setView(view)
+        val binding = DialogFinishWordBinding.inflate(LayoutInflater.from(context))
+
+        binding.onClickListener = this
+
+        finishDialog.setView(binding.root)
         finishDialog.setCanceledOnTouchOutside(false)
         finishDialog.setCancelable(false)
         finishDialog.show()
@@ -198,11 +194,11 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
     private fun saveIndex() {
         val sharedPreferences = requireContext().getSharedPreferences(
-            wordSharedPreferences,
+            PHRASE_SHARED_PREFERENCES,
             AppCompatActivity.MODE_PRIVATE
         )
         val editor = sharedPreferences.edit()
-        editor.putInt(wordKey, index)
+        editor.putInt(PHRASE_KEY, index)
         editor.apply()
     }
 
@@ -210,11 +206,11 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
         if (v != null) {
             when (v.id) {
                 R.id.fragment_word_soundFL -> speak()
-                R.id.dialog_finish_startAgainMBTN -> restart(
+                R.id.dialog_finish_word_startAgainMBTN -> restart(
                     finishDialog,
                     WordFragmentDirections.actionWordFragmentSelf()
                 )
-                R.id.dialog_finish_homeMBTN -> restart(
+                R.id.dialog_finish_word_homeMBTN -> restart(
                     finishDialog,
                     WordFragmentDirections.actionWordFragmentToHomeFragment()
                 )
@@ -227,28 +223,22 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
                     closeFAB()
                     openWordListDialog(v)
                 }
-                R.id.dialog_restart_yesMBTN -> restart(
+                R.id.dialog_restart_word_yesMBTN -> restart(
                     restartDialog,
                     WordFragmentDirections.actionWordFragmentSelf()
                 )
-                R.id.dialog_restart_noMBTN -> restartDialog.dismiss()
+                R.id.dialog_restart_word_noMBTN -> restartDialog.dismiss()
             }
         }
     }
 
     private fun openRestartDialog(v: View?) {
         restartDialog = AlertDialog.Builder(v?.context).create()
-        val view = layoutInflater.inflate(R.layout.dialog_restart, null)
+        val binding = DialogRestartWordBinding.inflate(LayoutInflater.from(context))
 
-        val dialogRestartYesMBTN =
-            view.findViewById<MaterialButton>(R.id.dialog_restart_yesMBTN)
-        val dialogRestartNoMBTN =
-            view.findViewById<MaterialButton>(R.id.dialog_restart_noMBTN)
+        binding.onClickListener = this
 
-        dialogRestartYesMBTN.setOnClickListener(this)
-        dialogRestartNoMBTN.setOnClickListener(this)
-
-        restartDialog.setView(view)
+        restartDialog.setView(binding.root)
         restartDialog.show()
     }
 
@@ -258,12 +248,10 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
     private fun openWordListDialog(v: View?) {
         wordListDialog = AlertDialog.Builder(v?.context).create()
-        val view = layoutInflater.inflate(R.layout.layout_word_list, null)
+        val binding = LayoutListWordBinding.inflate(LayoutInflater.from(context))
 
-        val layoutWordListMainRV =
-            view.findViewById<RecyclerView>(R.id.layout_word_list_mainRV)
-        val wordList =
-            ArrayList(listOf(*resources.getStringArray(R.array.words)))
+        val layoutWordListMainRV = binding.layoutListWordMainRV
+        val wordList = ArrayList(listOf(*resources.getStringArray(R.array.words)))
 
         fullWordList = wordList
 
@@ -285,12 +273,12 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
         }
 
         layoutWordListMainRV.layoutManager = LinearLayoutManager(context)
-        wordAdapter = WordAdapter(wordsList, requireContext(), this, binding.wordMeaning)
+        wordAdapter =
+            WordAdapter(wordsList, requireContext(), this, mainBinding.wordMeaning)
         layoutWordListMainRV.adapter = wordAdapter
         layoutWordListMainRV.scrollToPosition(index)
 
-        val layoutWordListMainSV =
-            view.findViewById<SearchView>(R.id.layout_word_list_mainSV)
+        val layoutWordListMainSV = binding.layoutListWordMainSV
         layoutWordListMainSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -303,7 +291,7 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
 
         })
 
-        wordListDialog.setView(view)
+        wordListDialog.setView(binding.root)
         wordListDialog.show()
     }
 
@@ -316,24 +304,20 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
     }
 
     private fun closeFAB() {
-        fragment_word_restartMTV.visibility = View.INVISIBLE
-        fragment_word_listMTV.visibility = View.INVISIBLE
-        fragment_word_restartFAB.startAnimation(fabClose)
-        fragment_word_listFAB.startAnimation(fabClose)
-        fragment_word_mainFAB.startAnimation(fabAntiClock)
-        fragment_word_restartFAB.isClickable = false
-        fragment_word_listFAB.isClickable = false
+        mainBinding.isRestartMTVGone = true
+        mainBinding.isListMTVGone = true
+        mainBinding.fragmentWordRestartFAB.startAnimation(fabClose)
+        mainBinding.fragmentWordListFAB.startAnimation(fabClose)
+        mainBinding.fragmentWordMainFAB.startAnimation(fabAntiClock)
         isOpen = false
     }
 
     private fun openFAB() {
-        fragment_word_restartMTV.visibility = View.VISIBLE
-        fragment_word_listMTV.visibility = View.VISIBLE
-        fragment_word_restartFAB.startAnimation(fabOpen)
-        fragment_word_listFAB.startAnimation(fabOpen)
-        fragment_word_mainFAB.startAnimation(fabClock)
-        fragment_word_restartFAB.isClickable = true
-        fragment_word_listFAB.isClickable = true
+        mainBinding.isRestartMTVGone = false
+        mainBinding.isListMTVGone = false
+        mainBinding.fragmentWordRestartFAB.startAnimation(fabOpen)
+        mainBinding.fragmentWordListFAB.startAnimation(fabOpen)
+        mainBinding.fragmentWordMainFAB.startAnimation(fabClock)
         isOpen = true
     }
 
@@ -359,7 +343,7 @@ class WordFragment : Fragment(), View.OnClickListener, WordAdapter.ItemClickList
     private fun setAds() {
         // Interstitial
         interstitialAd = InterstitialAd(context)
-        interstitialAd.adUnitId = resources.getString(R.string.main_activity_interstitial)
+        interstitialAd.adUnitId = MAIN_ACTIVITY_INTERSTITIAL
 
         val interstitialAdRequest = AdRequest.Builder().build()
         interstitialAd.loadAd(interstitialAdRequest)

@@ -15,8 +15,8 @@ import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.adapter.IntroAdapter
 import com.martiandeveloper.easyenglish.databinding.ActivityIntroBinding
 import com.martiandeveloper.easyenglish.model.Splash
-import com.martiandeveloper.easyenglish.viewmodel.INTRO_KEY
-import com.martiandeveloper.easyenglish.viewmodel.INTRO_SHARED_PREFERENCES
+import com.martiandeveloper.easyenglish.utils.INTRO_KEY
+import com.martiandeveloper.easyenglish.utils.INTRO_SHARED_PREFERENCES
 import kotlinx.android.synthetic.main.activity_intro.*
 
 class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickListener {
@@ -47,6 +47,8 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
         addDotIndicator(0)
         setListeners()
         hidePreviousButton()
+        binding.next = resources.getString(R.string.next)
+        binding.listener = this
     }
 
     private fun fillTheLists() {
@@ -65,7 +67,7 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
 
     private fun setAdapter() {
         val pagerAdapter: PagerAdapter =
-            IntroAdapter(this, splashList)
+            IntroAdapter(splashList)
         activity_intro_mainVP.adapter = pagerAdapter
         activity_intro_mainVP.setPageTransformer(
             true
@@ -78,9 +80,9 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
                 position <= 1 -> {
                     val pageWidthDividedBy10 = pageWidth / 10
                     val pageWidthDividedBy3 = pageWidth / 3
-                    val layoutSplashDescriptionTV: MaterialTextView =
-                        view.findViewById(R.id.layout_intro_descriptionTV)
-                    layoutSplashDescriptionTV.translationX = -position * pageWidthDividedBy10
+                    val layoutSplashDescriptionMTV: MaterialTextView =
+                        view.findViewById(R.id.layout_intro_descriptionMTV)
+                    layoutSplashDescriptionMTV.translationX = -position * pageWidthDividedBy10
                     val layoutSplashMainLL =
                         view.findViewById<LinearLayout>(R.id.layout_intro_mainLL)
                     layoutSplashMainLL.translationX = -position * pageWidthDividedBy3
@@ -108,8 +110,6 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
 
     private fun setListeners() {
         activity_intro_mainVP.addOnPageChangeListener(this)
-        activity_intro_nextMBTN.setOnClickListener(this)
-        activity_intro_previousMBTN.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -150,7 +150,6 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
 
     private fun hidePreviousButton() {
         binding.isPreviousMBTNGone = true
-        binding.isPreviousMBTNClickable = false
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
@@ -164,15 +163,14 @@ class IntroActivity : AppCompatActivity(), OnPageChangeListener, View.OnClickLis
             showPreviousButton()
         }
         if (page == 3) {
-            activity_intro_nextMBTN.setText(R.string.okay)
+            binding.next = resources.getString(R.string.okay)
         } else {
-            activity_intro_nextMBTN.setText(R.string.next)
+            binding.next = resources.getString(R.string.next)
         }
     }
 
     private fun showPreviousButton() {
         binding.isPreviousMBTNGone = false
-        binding.isPreviousMBTNClickable = true
     }
 
     override fun onPageScrollStateChanged(state: Int) {}
