@@ -21,6 +21,18 @@ const val IN_APP_REVIEW_REQUEST_CODE = 200
 const val PHRASE_SHARED_PREFERENCES = "PhraseIndex"
 const val PHRASE_KEY = "phrase_index"
 
+const val FACEBOOK_URL = "https://www.facebook.com/imartiandeveloper"
+const val INSTAGRAM_URL = "https://www.instagram.com/martiandeveloper/"
+const val PRIVACY_POLICY_URL =
+    "https://github.com/mdismayilov/Easy-English-Privacy-Policy/blob/master/easy_english_privacy_policy.docx"
+const val TERMS_CONDITIONS_URL =
+    "https://github.com/mdismayilov/Easy-English-Privacy-Policy/blob/master/easy_english_terms_conditions.docx"
+const val FLATICON_URL = "https://www.flaticon.com/"
+
+const val COMPANY_EMAIL = "app.martiandeveloper@gmail.com"
+
+const val APP_URL = "https://play.google.com/store/apps/details?id=com.martiandeveloper.easyenglish"
+
 class MyApplication : Application() {
 
     override fun onCreate() {

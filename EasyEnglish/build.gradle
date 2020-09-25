@@ -48,9 +48,9 @@ ext {
     // Target Sdk Version
     targetSdkVersion = 29
     // Version Code
-    versionCode = 3
+    versionCode = 4
     // Version Name
-    versionName = "1.2"
+    versionName = "1.3"
     // KTX
     ktx = "1.3.1"
     // AppCompat

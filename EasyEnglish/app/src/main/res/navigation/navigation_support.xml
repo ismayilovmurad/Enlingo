@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_support"
+    app:startDestination="@id/supportFragment">
+
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.martiandeveloper.easyenglish.view.SupportFragment"
+        android:label="SupportFragment"
+        tools:layout="@layout/fragment_support">
+        <action
+            android:id="@+id/action_supportFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.martiandeveloper.easyenglish.view.AboutUsFragment"
+        android:label="AboutUsFragment"
+        tools:layout="@layout/fragment_about_us" />
+</navigation>

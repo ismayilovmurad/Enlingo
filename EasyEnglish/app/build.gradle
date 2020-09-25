@@ -57,6 +57,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat"
     // ConstraintLayout
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     // Test
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$junit2"

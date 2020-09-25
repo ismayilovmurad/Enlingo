@@ -25,8 +25,35 @@
     <string name="about">Hakkımızda</string>
     <string name="send_us_a_message">Bize mesaj gönder</string>
     <string name="invite_your_friend">Arkadaşını davet et</string>
-    <string name="version">Version</string>
-    <string name="this_section_is_under_development">Bu bölüm geliştirme aşamasında.</string>
+    <string name="send_via">Üzerinden gönder</string>
+    <string name="share_via">Üzerinden paylaş</string>
+    <string name="about_app">Uygulama hakkında</string>
+    <string name="about_easy_english">
+        İngilizce öğrenmenin en kolay yolu yabancı film ve dizi izleyerek ve ya senaryolu oyunlar oynamaktır.
+        Uzun zamandır yabancı (özellikle amerikan) film ve dizilerde çok fazla kullanılan kelimeleri ve ifadeleri
+        kendi not defterime kaydediyorum. Hiçbirini oturupda ezberlemeye çalışmadım çünkü kaydettiğim
+        bu kelime veya ifadeleri herhangi bir yerde mesela Youtube\'da video izlerken ve ya bir film,
+        dizi izlerken her gördüğümde, kaydettiğim yerde aynı kelime veya ifadeye bakmam onu öğrenmemi sağlıyordu.
+        Daha sonralar aynı kelimeyi herhangi bir yerde görsem bile artık bakmaya ihtiyaç duymuyordum.
+        Demem o ki, ingilizceyi gerçekten öğrenmek istiyorsan izlediğin ve ya okuduğun şeylerin 80%-ni ingilize
+        olarak yap. Bu sayede çok hızlı bir şekilde ingilizce kelime hazinenizi geliştirebilirsin.
+        Her tarafta ingilizce yerine türkçe sesler duyarak ingilizceni geliştirmen malesef çok daha zor olur.
+        Bununla sen sadece ingilizce kelime hazineni geliştirmiyorsun hem de gramerini de geliştirmiş oluyorsun
+        çünkü bir hissin bir insana nasıl aktarıldığını yani hangi cümleler kurarak anlatıldığını
+        izlediğin şeylerde görebiliyorsun. Ama sürekli yabancı film, dizi izlemeye ve ya kelime kaydetmeye
+        zamanın olmayabilir. Easy English\' i işte bunun için geliştirdim ve geliştirmeye devam ediyorum.
+        Bu uygulama sayesinde artık her gördüğün kelime veya ifadeyi bir yere kaydetmek zorunda değilsin.
+        Sadece kartları çevirerek rahatlıkla, tamamen ücretsiz bir şekilde ingilizce kelime hazineni geliştirebilirsin.
+        Uygulamayı her güncellediğimde yeni kelime ve ifade de ekleyeceğimden emin olabilirsiniz.
+        İngilizce öğrenmek için özellikle ifadelere dikkat etmeniz yararınıza olacaktır.
+    </string>
+    <string name="external_links">Dış bağlantılar</string>
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="terms_conditions">Şartlar ve koşullar</string>
+    <string name="social">Sosyal</string>
+    <string name="credits">Kredi</string>
+    <string name="hi_i_found_a_beautiful_app_for_improving_english">Merhaba, ingilizce geliştirmek için güzel bir uygulama buldum. Uygulamayı indir:</string>
+    <string name="version">Versiyon %s</string>
 
     <!--Intro titles-->
     <string-array name="titles">
