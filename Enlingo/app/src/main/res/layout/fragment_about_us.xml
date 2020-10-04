@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="aboutUsViewModel"
+            type="com.martiandeveloper.enlingo.viewmodel.AboutUsViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".view.AboutUsFragment">
+
+            <LinearLayout
+                android:id="@+id/fragment_about_us_socialLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/acme"
+                        android:text="@string/social"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="24sp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/fragment_about_us_facebookIV"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{() -> aboutUsViewModel.onFacebookIVClick()}"
+                        android:padding="16dp"
+                        android:src="@drawable/facebook" />
+
+                    <ImageView
+                        android:id="@+id/fragment_about_us_instagramIV"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{() -> aboutUsViewModel.onInstagramIVClick()}"
+                        android:padding="16dp"
+                        android:src="@drawable/instagram" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_about_us_externalLinksLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_about_us_socialLL">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/acme"
+                        android:text="@string/external_links"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="24sp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_about_us_privacyPolicyMTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/acme"
+                        android:onClick="@{() -> aboutUsViewModel.onPrivacyPolicyMTVClick()}"
+                        android:padding="16dp"
+                        android:text="@string/privacy_policy"
+                        android:textColor="@color/colorThree"
+                        android:textSize="16sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_about_us_termsConditionsMTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/acme"
+                        android:onClick="@{() -> aboutUsViewModel.onTermsConditionsMTVClick()}"
+                        android:padding="16dp"
+                        android:text="@string/terms_conditions"
+                        android:textColor="@color/colorThree"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_about_us_copyrights"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_about_us_externalLinksLL">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/acme"
+                        android:text="@string/credits"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="24sp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/fragment_about_us_flaticonIV"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{() -> aboutUsViewModel.onFlaticonIVClick()}"
+                    android:src="@drawable/flaticon" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_about_us_copyrights">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/acme"
+                        android:text="@string/about_app"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="24sp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimary" />
+
+                </LinearLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/acme"
+                    android:lineSpacingExtra="8dp"
+                    android:text="@string/about_easy_english"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorThree"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

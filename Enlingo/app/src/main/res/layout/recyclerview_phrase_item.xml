@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="phrase"
+            type="String" />
+
+        <variable
+            name="meaning"
+            type="String" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/recyclerview_phrase_item_mainLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/recyclerview_phrase_item_phraseMTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/acme"
+            android:text="@{phrase}"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/recyclerview_phrase_item_meaningMTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/acme"
+            android:text="@{meaning}"
+            android:textColor="@color/colorThree"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</layout>

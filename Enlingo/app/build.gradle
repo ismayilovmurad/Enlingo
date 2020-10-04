@@ -1,0 +1,86 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+// Firebase
+apply plugin: 'com.google.gms.google-services'
+// Navigation
+apply plugin: "androidx.navigation.safeargs.kotlin"
+// Data Binding
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.martiandeveloper.enlingo"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+    // Default
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    // KTX
+    implementation "androidx.core:core-ktx:$ktx"
+    // AppCompat
+    implementation "androidx.appcompat:appcompat:$appcompat"
+    // ConstraintLayout
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    // Test
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation "androidx.test.ext:junit:$junit2"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    // Firebase
+    implementation "com.google.firebase:firebase-core:$firebase_core"
+    implementation "com.google.firebase:firebase-analytics:$firebase_analytics"
+    // Material
+    implementation "com.google.android.material:material:$material"
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle"
+    // Google Ads
+    implementation "com.google.android.gms:play-services-ads:$googleAds"
+    // SwipeCards
+    implementation "com.lorentzos.swipecards:library:$swipecards"
+    // Play core library for In-App review, In-App update
+    implementation "com.google.android.play:core:$playcore"
+    implementation "com.google.android.play:core-ktx:$playcorektx"
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timber"
+}
