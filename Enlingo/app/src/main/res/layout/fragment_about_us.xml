@@ -7,7 +7,7 @@
 
         <variable
             name="aboutUsViewModel"
-            type="com.martiandeveloper.enlingo.viewmodel.AboutUsViewModel" />
+            type="com.martiandeveloper.easyenglish.viewmodel.AboutUsViewModel" />
 
     </data>
 

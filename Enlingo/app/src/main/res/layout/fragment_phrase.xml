@@ -8,7 +8,7 @@
 
         <variable
             name="phraseViewModel"
-            type="com.martiandeveloper.enlingo.viewmodel.PhraseViewModel" />
+            type="com.martiandeveloper.easyenglish.viewmodel.PhraseViewModel" />
 
     </data>
 

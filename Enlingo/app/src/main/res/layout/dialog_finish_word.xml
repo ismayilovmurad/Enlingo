@@ -7,7 +7,7 @@
 
         <variable
             name="wordViewModel"
-            type="com.martiandeveloper.enlingo.viewmodel.WordViewModel" />
+            type="com.martiandeveloper.easyenglish.viewmodel.WordViewModel" />
 
     </data>
 

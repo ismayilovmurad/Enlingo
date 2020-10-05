@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "358867692062",
-    "firebase_url": "https://enlingo-app.firebaseio.com",
-    "project_id": "enlingo-app",
-    "storage_bucket": "enlingo-app.appspot.com"
+    "project_number": "644703884931",
+    "firebase_url": "https://martiandeveloper-enlingo.firebaseio.com",
+    "project_id": "martiandeveloper-enlingo",
+    "storage_bucket": "martiandeveloper-enlingo.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:358867692062:android:e021b7ccd2fc35288a1c0f",
+        "mobilesdk_app_id": "1:644703884931:android:46a3d843a00476243eadb6",
         "android_client_info": {
-          "package_name": "com.martiandeveloper.enlingo"
+          "package_name": "com.martiandeveloper.easyenglish"
         }
       },
       "oauth_client": [
         {
-          "client_id": "358867692062-01aemp4eicgak16qa6mh593eav5tbdvb.apps.googleusercontent.com",
+          "client_id": "644703884931-grof89f4t69mqegcti7jrkjl6ge1q4sl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.martiandeveloper.enlingo",
+            "package_name": "com.martiandeveloper.easyenglish",
             "certificate_hash": "e81b771527d03365b128de94c32b2cd0c6d2014c"
           }
         },
         {
-          "client_id": "358867692062-q9v680oin9aqvuhidho0j4l6egoi60s4.apps.googleusercontent.com",
+          "client_id": "644703884931-3kdhb12j49sfboofnlr3a5i47jkt2ham.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA6-lHd1Y1lXKRIAS98-aSFX69oaFiW4Oc"
+          "current_key": "AIzaSyCa3UL3wtgNfAA85Au_N_v1cFzlvG-K6r8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "358867692062-q9v680oin9aqvuhidho0j4l6egoi60s4.apps.googleusercontent.com",
+              "client_id": "644703884931-3kdhb12j49sfboofnlr3a5i47jkt2ham.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

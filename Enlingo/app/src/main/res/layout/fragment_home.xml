@@ -7,7 +7,7 @@
 
         <variable
             name="homeViewModel"
-            type="com.martiandeveloper.enlingo.viewmodel.HomeViewModel" />
+            type="com.martiandeveloper.easyenglish.viewmodel.HomeViewModel" />
 
     </data>
 

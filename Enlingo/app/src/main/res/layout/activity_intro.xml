@@ -9,7 +9,7 @@
 
         <variable
             name="introViewModel"
-            type="com.martiandeveloper.enlingo.viewmodel.IntroViewModel" />
+            type="com.martiandeveloper.easyenglish.viewmodel.IntroViewModel" />
 
     </data>
 
