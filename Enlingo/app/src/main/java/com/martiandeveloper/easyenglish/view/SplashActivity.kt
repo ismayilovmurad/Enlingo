@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.ads.MobileAds
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.utils.INTRO_KEY
 import com.martiandeveloper.easyenglish.utils.INTRO_PREFERENCES
@@ -22,13 +21,7 @@ class SplashActivity : AppCompatActivity() {
     private fun initUI() {
         window.setBackgroundDrawableResource(R.drawable.background_2)
         setContentView(R.layout.activity_splash)
-        initAd()
-    }
-
-    private fun initAd() {
-        MobileAds.initialize(applicationContext) {
-            getIntroData()
-        }
+        getIntroData()
     }
 
     private fun getIntroData() {

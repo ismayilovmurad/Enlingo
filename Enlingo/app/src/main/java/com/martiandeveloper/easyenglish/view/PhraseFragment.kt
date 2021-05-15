@@ -19,9 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import com.lorentzos.flingswipe.SwipeFlingAdapterView.onFlingListener
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.adapter.PhraseAdapter
@@ -31,7 +28,6 @@ import com.martiandeveloper.easyenglish.databinding.DialogRestartPhraseBinding
 import com.martiandeveloper.easyenglish.databinding.FragmentPhraseBinding
 import com.martiandeveloper.easyenglish.databinding.LayoutListPhraseBinding
 import com.martiandeveloper.easyenglish.model.Phrase
-import com.martiandeveloper.easyenglish.utils.MAIN_ACTIVITY_INTERSTITIAL
 import com.martiandeveloper.easyenglish.utils.PHRASE_KEY
 import com.martiandeveloper.easyenglish.utils.PHRASE_SHARED_PREFERENCES
 import com.martiandeveloper.easyenglish.viewmodel.PhraseViewModel
@@ -54,8 +50,6 @@ class PhraseFragment : Fragment(), PhraseAdapter.ItemClickListener {
     private lateinit var textToSpeech: TextToSpeech
 
     private var adIndex = 0
-
-    private lateinit var interstitialAd: InterstitialAd
 
     private lateinit var finishDialog: AlertDialog
 
@@ -99,7 +93,6 @@ class PhraseFragment : Fragment(), PhraseAdapter.ItemClickListener {
         phraseViewModel.setPhraseMeaningMTVText(phraseList[0].meaning)
         getCurrentPhrase()
         initTextToSpeech()
-        setAds()
         isFinish()
         initAnimations()
         if (phraseViewModel.fabOpen.value == null) {
@@ -168,12 +161,6 @@ class PhraseFragment : Fragment(), PhraseAdapter.ItemClickListener {
                 index++
 
                 adIndex++
-                if (adIndex >= 20) {
-                    if (interstitialAd.isLoaded) {
-                        interstitialAd.show()
-                        adIndex = 0
-                    }
-                }
 
                 if (phraseList.size < 3) {
                     showFinishDialog()
@@ -407,22 +394,6 @@ class PhraseFragment : Fragment(), PhraseAdapter.ItemClickListener {
         textToSpeech = TextToSpeech(context) { status: Int ->
             if (status == TextToSpeech.SUCCESS) {
                 textToSpeech.language = Locale.US
-            }
-        }
-    }
-
-    private fun setAds() {
-        // Interstitial
-        interstitialAd = InterstitialAd(context)
-        interstitialAd.adUnitId = MAIN_ACTIVITY_INTERSTITIAL
-
-        val interstitialAdRequest = AdRequest.Builder().build()
-        interstitialAd.loadAd(interstitialAdRequest)
-
-        interstitialAd.adListener = object : AdListener() {
-            override fun onAdClosed() {
-                super.onAdClosed()
-                interstitialAd.loadAd(interstitialAdRequest)
             }
         }
     }

@@ -19,9 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import com.lorentzos.flingswipe.SwipeFlingAdapterView.onFlingListener
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.adapter.WordAdapter
@@ -54,8 +51,6 @@ class WordFragment : Fragment(), WordAdapter.ItemClickListener {
     private lateinit var textToSpeech: TextToSpeech
 
     private var adIndex = 0
-
-    private lateinit var interstitialAd: InterstitialAd
 
     private lateinit var finishDialog: AlertDialog
 
@@ -99,7 +94,6 @@ class WordFragment : Fragment(), WordAdapter.ItemClickListener {
         wordViewModel.setWordMeaningMTVText(wordList[0].meaning)
         getCurrentWord()
         initTextToSpeech()
-        setAds()
         isFinish()
         initAnimations()
         if (wordViewModel.fabOpen.value == null) {
@@ -168,12 +162,6 @@ class WordFragment : Fragment(), WordAdapter.ItemClickListener {
                 index++
 
                 adIndex++
-                if (adIndex >= 20) {
-                    if (interstitialAd.isLoaded) {
-                        interstitialAd.show()
-                        adIndex = 0
-                    }
-                }
 
                 if (wordList.size < 3) {
                     showFinishDialog()
@@ -407,22 +395,6 @@ class WordFragment : Fragment(), WordAdapter.ItemClickListener {
         textToSpeech = TextToSpeech(context) { status: Int ->
             if (status == TextToSpeech.SUCCESS) {
                 textToSpeech.language = Locale.US
-            }
-        }
-    }
-
-    private fun setAds() {
-        // Interstitial
-        interstitialAd = InterstitialAd(context)
-        interstitialAd.adUnitId = MAIN_ACTIVITY_INTERSTITIAL
-
-        val interstitialAdRequest = AdRequest.Builder().build()
-        interstitialAd.loadAd(interstitialAdRequest)
-
-        interstitialAd.adListener = object : AdListener() {
-            override fun onAdClosed() {
-                super.onAdClosed()
-                interstitialAd.loadAd(interstitialAdRequest)
             }
         }
     }

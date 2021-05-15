@@ -10,9 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManager
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.martiandeveloper.easyenglish.R
 import com.martiandeveloper.easyenglish.databinding.FragmentAboutUsBinding
 import com.martiandeveloper.easyenglish.utils.*
@@ -23,9 +20,6 @@ class AboutUsFragment : Fragment() {
     private lateinit var aboutUsBinding: FragmentAboutUsBinding
 
     private lateinit var aboutUsViewModel: AboutUsViewModel
-
-    private var reviewInfo: ReviewInfo? = null
-    private lateinit var reviewManager: ReviewManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,25 +36,10 @@ class AboutUsFragment : Fragment() {
     }
 
     private fun initUI() {
-        initReview()
         aboutUsViewModel = getViewModel()
         aboutUsBinding.aboutUsViewModel = aboutUsViewModel
         aboutUsBinding.lifecycleOwner = viewLifecycleOwner
         observe()
-        showRateUs()
-    }
-
-    private fun initReview() {
-        reviewManager = ReviewManagerFactory.create(requireContext())
-
-        val requestFlow = reviewManager.requestReviewFlow()
-        requestFlow.addOnCompleteListener { request ->
-            reviewInfo = if (request.isSuccessful) {
-                request.result
-            } else {
-                null
-            }
-        }
     }
 
     private fun getViewModel(): AboutUsViewModel {
@@ -117,12 +96,4 @@ class AboutUsFragment : Fragment() {
         }
     }
 
-    private fun showRateUs() {
-        reviewInfo?.let {
-            val flow = reviewManager.launchReviewFlow(requireActivity(), it)
-            flow.addOnSuccessListener {}
-            flow.addOnFailureListener {}
-            flow.addOnCompleteListener {}
-        }
-    }
 }
